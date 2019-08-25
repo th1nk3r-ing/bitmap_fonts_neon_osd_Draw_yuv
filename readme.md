@@ -28,7 +28,7 @@
     - YUV 叠加: **`x2, x4`**
 - `u16` 点阵拓展包含两种实现:
     - cpu 叠加; 参见 [`./osd_Draw/cpu_osd.c`](./osd_Draw/cpu_osd.c)
-        - cpu 叠加已调过性能, 建议直接使用;
+        - cpu 叠加已调过性能, 可直接使用;
     - **<u>arm 下的 neon 加速叠加;</u> 参见 [`./osd_Draw/neon_osd.c`](./osd_Draw/neon_osd.c)**
         - 性能最好. 适用于支持 neon 的 arm 处理器;
 
