@@ -1,0 +1,70 @@
+prt_Green="\e[1;32m"
+prt_Yellow="\e[1;33m"
+prt_Red="\e[1;31m"
+prt_End="\e[0m"
+
+#ndk根目录(绝对路径)
+NDK_ROOT=/home/think3r/win_Desktop/android/android-ndk-r10e
+
+#编译器目录
+TOOLCHAINS_PREFIX=$(NDK_ROOT)/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64/bin/arm-linux-androideabi-
+#编译器
+CC=$(TOOLCHAINS_PREFIX)gcc
+
+#SDK根目录
+PLATFROM_ROOT=$(NDK_ROOT)/platforms/android-14/arch-arm
+
+#启动多核编译
+MAKEFLAGS = -j
+
+Include_Dir :=  -I./inc/ \
+				-I../osd_Draw/ 
+
+#编译选项
+#neon 必须包含如下的编译选项
+C_Flags += -mfloat-abi=softfp -mfpu=neon-vfpv4
+C_Flags += -g -Wall -Wno-unused -Wconversion -Wno-uninitialized -Wno-sign-conversion
+C_Flags += -O2
+C_Flags += $(Include_Dir)
+
+C_Flags += --sysroot=$(PLATFROM_ROOT)
+#安卓 5.0 以上指定
+C_Flags += -fPIE -pie
+
+Target = osd_demo
+# ndk gcc 不能直接连接上输出到挂载目录, 需转一层
+Target_WithPath = ~/$(Target)
+
+#源文件
+Src_Files = ../osd_Draw/osd_base.c \
+			../osd_Draw/neon_osd.c \
+			../osd_Draw/cpu_osd.c \
+			./src/build_time.c \
+			./src/neon_intrinsics_test.c \
+			./src/osd_test.c \
+			./src/test.c
+#Src_Files += $(patsubst %.c,%.o,$(wildcard ./*.c))
+
+#Object File
+Objs := $(Src_Files:.c=.o)
+
+# 链接输出
+$(Target) : $(Objs)
+	$(CC) $(C_Flags) -o $(Target_WithPath) $(Objs) 
+	@echo -e $(prt_Green) "\n****** make OK! *****\n" $(prt_End)	
+
+# 编译源文件
+$(Objs) : %.o : %.c
+	$(CC) $(C_Flags) -c $< -o $@
+	
+.PHONY : clean run
+
+# run_32bit.sh 是 为了配置 termux 为 32 位, 以执行编译出的 32 位的 $(Target)
+run :
+	busybox tftp -pl $(Target_WithPath) -r $(Target) 192.168.1.11:6969 -b 65434
+	@ssh -p 8022 192.168.1.11 ". run_32bit.sh; cd osd; ./$(Target)"
+	busybox tftp -gl osdOut.bin 192.168.1.11:6969 -b 65434
+	busybox tftp -gl osdOut_copy.bin 192.168.1.11:6969 -b 65434
+	
+clean :
+	-rm -rf $(Target) $(Objs)

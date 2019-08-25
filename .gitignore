@@ -1,0 +1,7 @@
+osd_demo
+*.bin
+*.o
+*.d
+*.so
+*.a
+*.out
