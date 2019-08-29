@@ -31,7 +31,7 @@ C_Flags += --sysroot=$(PLATFROM_ROOT)
 C_Flags += -fPIE -pie
 
 #利用模式变量, 指定复杂运算代码的优化等级;
-%osd.o : C_Flags += -O2
+../osd_Draw%.o : C_Flags += -O2
 
 Target = osd_demo
 # ndk gcc 不能直接连接上输出到挂载目录, 需转一层

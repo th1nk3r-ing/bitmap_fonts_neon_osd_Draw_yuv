@@ -23,7 +23,6 @@ Include_Dir :=  -I./inc/ \
 
 # 编译选项
 C_Flags += -g -Wall -Wno-unused -Wconversion -Wno-uninitialized -Wno-sign-conversion
-C_Flags += -O2
 C_Flags += $(Include_Dir)
 
 # 源文件
@@ -36,9 +35,9 @@ Src_Files = ../osd_Draw/osd_base.c \
 			./src/test.c
 #Src_Files += $(patsubst %.c,%.o,$(wildcard ./*.c))
 
-#利用模式变量, 指定复杂运算代码的优化等级;
-#%osd.o : C_Flags += -O2
+#利用模式变量/目标变量, 指定复杂运算代码的优化等级;
 ../osd_Draw%.o : C_Flags += -O2
+#../osd_Draw/neon_osd.o ../osd_Draw/cpu_osd.o : C_Flags += -O2
 
 #Object File
 Objs := $(Src_Files:.c=.o)
