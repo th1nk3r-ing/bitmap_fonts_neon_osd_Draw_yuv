@@ -36,6 +36,10 @@ Src_Files = ../osd_Draw/osd_base.c \
 			./src/test.c
 #Src_Files += $(patsubst %.c,%.o,$(wildcard ./*.c))
 
+#利用模式变量, 指定复杂运算代码的优化等级;
+#%osd.o : C_Flags += -O2
+../osd_Draw%.o : C_Flags += -O2
+
 #Object File
 Objs := $(Src_Files:.c=.o)
 

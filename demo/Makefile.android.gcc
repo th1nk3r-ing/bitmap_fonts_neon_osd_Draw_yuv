@@ -24,12 +24,14 @@ Include_Dir :=  -I./inc/ \
 #neon 必须包含如下的编译选项
 C_Flags += -mfloat-abi=softfp -mfpu=neon-vfpv4
 C_Flags += -g -Wall -Wno-unused -Wconversion -Wno-uninitialized -Wno-sign-conversion
-C_Flags += -O2
 C_Flags += $(Include_Dir)
 
 C_Flags += --sysroot=$(PLATFROM_ROOT)
 #安卓 5.0 以上指定
 C_Flags += -fPIE -pie
+
+#利用模式变量, 指定复杂运算代码的优化等级;
+%osd.o : C_Flags += -O2
 
 Target = osd_demo
 # ndk gcc 不能直接连接上输出到挂载目录, 需转一层
@@ -48,9 +50,10 @@ Src_Files = ../osd_Draw/osd_base.c \
 #Object File
 Objs := $(Src_Files:.c=.o)
 
+
 # 链接输出
 $(Target) : $(Objs)
-	$(CC) $(C_Flags) -o $(Target_WithPath) $(Objs) 
+	$(CC) $(C_Flags)  -o $(Target_WithPath) $(Objs) 
 	@echo -e $(prt_Green) "\n****** make OK! *****\n" $(prt_End)	
 
 # 编译源文件
