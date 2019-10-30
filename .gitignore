@@ -5,3 +5,4 @@ osd_demo
 *.so
 *.a
 *.out
+*.yuv

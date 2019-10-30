@@ -55,7 +55,7 @@ $(Objs) : %.o : %.c
 
 run :
 	busybox tftp -pl $(Target) 192.168.1.11:6969 -b 65434
-	@ssh -p 8022 192.168.1.11 "cd osd; ./$(Target)"
+	@ssh -p 8022 192.168.1.11 "pwd; . run_32bit.sh; cd osd; ./$(Target)"
 	busybox tftp -gl osdOut.bin 192.168.1.11:6969 -b 65434
 	busybox tftp -gl osdOut_copy.bin 192.168.1.11:6969 -b 65434
 

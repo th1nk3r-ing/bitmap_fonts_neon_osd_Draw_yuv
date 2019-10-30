@@ -313,7 +313,7 @@ void test_DrawOsd_YUV_func(void * pMem, YUV_FORMAT yuvFormat)
 
     R = 255.0;
     G = 255.0;
-    B = 255.0;
+    B = 0.0;
 
     drawParam.osdStartX = 64 * 10;
     drawParam.osdStartY = 160;
