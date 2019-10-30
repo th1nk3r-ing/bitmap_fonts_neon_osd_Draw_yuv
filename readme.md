@@ -47,8 +47,8 @@
 ```
 ./
 ├── demo
-│   ├── ASCII8
-│   ├── HZK16
+│   ├── ASCII8          #英文字库
+│   ├── HZK16           #汉字字库 GB2312
 │   ├── inc
 │   │   ├── build_time.h
 │   │   ├── common.h
@@ -59,7 +59,7 @@
 │   ├── Makefile.android.gcc    #低版本 ndk
 │   └── src
 │       ├── build_time.c
-│       ├── neon_intrinsics_test.c
+│       ├── neon_intrinsics_test.c  #noen 内嵌函数测试, 与本项目无关
 │       ├── osd_test.c
 │       └── test.c
 └── osd_Draw
@@ -72,9 +72,9 @@
 ```
 
 - 提供如下两种编译方法:
-    1. 基于 `ndk-r20 clang` 的 Makefile -> `Makefile.android.clang`;
+    1. 基于 `ndk-r20 clang` 的 Makefile --> `Makefile.android.clang`;
        - `@64bit` 可执行文件
-    2. 基于 `ndk-r10e gcc` 的 Makefile -> `Makefile.android.gcc`;
+    2. 基于 `ndk-r10e gcc` 的 Makefile --> `Makefile.android.gcc`;
        - `@32bit` 可执行文件
 
 - 编译步骤如下 (以 `ndk-r20` 的 `clang` 编译为例):
