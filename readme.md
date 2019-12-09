@@ -1,7 +1,5 @@
 # <font color=#0099ff> **osd 点阵字符绘制** </font>
 
-[![LICENSE](https://img.shields.io/badge/license-Anti%20996-blue.svg)](https://github.com/996icu/996.ICU/blob/master/LICENSE) [![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu) 
-
 > `@think3r` 2019-08-18 20:45:21
 > 参考链接:
 > 1. [RealView® 编译工具-汇编程序指南(pdf)]()
@@ -46,8 +44,12 @@
 
 ```
 ./
+├── CMakeLists.txt      # 分离的 cmake : 上层文件;
+├── CMakeLists_one.txt  # 单独的 Cmake 文件(完整);
+├── build               # cmake 构建文件夹
 ├── demo
 │   ├── ASCII8          #英文字库
+│   ├── CMakeLists.txt  # 分离的 cmake : demo 编译文件;
 │   ├── HZK16           #汉字字库 GB2312
 │   ├── inc
 │   │   ├── build_time.h
@@ -63,6 +65,7 @@
 │       ├── osd_test.c
 │       └── test.c
 └── osd_Draw
+    ├── CMakeLists.txt  # 分离的 cmake : 库文件编译;
     ├── cpu_osd.c      #cpu 拓展 osd 字符点阵, 仅支持 u16
     ├── cpu_osd.h
     ├── neon_osd.c     #neon 加速实现 : 拓展 osd 字符点阵和 yuv 绘制字符
@@ -71,10 +74,12 @@
     └── osd_base.h
 ```
 
-- 提供如下两种编译方法:
+- 提供如下三种编译方法:
     1. 基于 `ndk-r20 clang` 的 Makefile --> `Makefile.android.clang`;
        - `@64bit` 可执行文件
     2. 基于 `ndk-r10e gcc` 的 Makefile --> `Makefile.android.gcc`;
+       - `@32bit` 可执行文件
+    3. 基于 cmake 的编译方式  --> `CMakeLists.txt` 和 `CMakeLists_one.txt`
        - `@32bit` 可执行文件
 
 - 编译步骤如下 (以 `ndk-r20` 的 `clang` 编译为例):

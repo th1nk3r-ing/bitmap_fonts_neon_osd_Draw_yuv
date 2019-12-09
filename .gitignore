@@ -6,3 +6,13 @@ osd_demo
 *.a
 *.out
 *.yuv
+build
+install
+
+# cmake 垃圾文件
+CMakeCache.txt
+CMakeFiles
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
