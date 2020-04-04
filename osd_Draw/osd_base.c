@@ -65,7 +65,6 @@ uint32_t getTime_ms(void)
     return (uint32_t)((curTime.tv_sec * 1000) + curTime.tv_nsec / 1000000);
 }
 
-
 /**
  * @function:   osd_Init
  * @brief:      Моід dot table

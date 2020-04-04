@@ -9,6 +9,8 @@
 > 5. [ARM Neon Intrinsics各函数介绍](https://blog.csdn.net/hemmingway/article/details/44828303/)
 > 6. [ARM NEON Intrinsics -- gcc.gnu.org](https://gcc.gnu.org/onlinedocs/gcc-4.4.1/gcc/ARM-NEON-Intrinsics.html)
 > 7. [总结各种RGB转YUV的转换公式](https://www.cnblogs.com/zhengjianhong/p/7872459.html)
+> 8. [在线 Arm neon 汇编调试器](https://szeged.github.io/nevada/)
+> 9. [NEON加速之memcpy在ARM平台的优化](https://www.jianshu.com/p/7b3bfc3aed12)
 
 ## <font color=#009A000> 0x00 简介 </font>
 
@@ -116,3 +118,26 @@
 | 16 * 32 | 1206 ms | 0.471 us | 341 ms | 0.133 us |
 | 24 * 48 | 2164 ms | 0.845 us | 565 ms | 0.221 us |
 | 32 * 64 | 2686 ms | 1.049 us | 861 ms | 0.334 us |
+
+---
+
+# <font color=#0099ff> **~~项目 2.0(待做)~~** </font>
+
+最近逛知乎的时候发现了一个比较好玩的项目 `gnu unifont` 里面的字体刚好都是等宽字体, 且字体支持日文等几乎所有的 unicode 字符和特殊字符, 因而计划开展下 2.0 的项目 :
+
+1. 项目字库采用 `gnu unifont`, 一举解决所有的字体支持问题;
+    - `unifont` 各个字库之间的版本要区分清楚;
+2. 项目整体代码采用 `C++` 实现, 采取模块化设计 :
+    - `富文本解析`
+    - `字库渲染` 模块化, `ttf` / `pcf` / `hex` 字库叠加支持;
+    - `字体缓存设计` 利用算法实现字体缓存;
+3. `YUV` 字体叠加支持, `arm neon` 加速支持;
+
+一些参考链接 :
+> 1. [https://zh.wikipedia.org/zh-hans/GNU_Unifont](https://zh.wikipedia.org/zh-hans/GNU_Unifont)
+> 2. [hex -> bdf 工具](https://www.mankier.com/1/hex2bdf)
+> 3. [bdf字体文件相关代码](https://blog.csdn.net/glietboys/article/details/1528038)
+> 4. [BDF 位图字体分布格式 wikipedia](https://zh.wikipedia.org/wiki/%E4%BD%8D%E5%9C%96%E5%AD%97%E9%AB%94%E5%88%86%E4%BD%88%E6%A0%BC%E5%BC%8F)
+> 5. [The X11 PCF bitmap font file format¶](https://fontforge.org/docs/techref/pcf-format.html)
+
+> 在 X Window System下的点阵字体规格是BDF/PCF，这两种其实是一样的，只不过PCF是经过编码压缩，是二位文件，档案可能会比较小，加载的时候效率也会比较好。BDF的话是纯文字文件，可以使用一般的文字编辑器就可以编修

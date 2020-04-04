@@ -6,7 +6,7 @@ osd_demo
 *.a
 *.out
 *.yuv
-build
+build/
 install
 
 # cmake 垃圾文件
