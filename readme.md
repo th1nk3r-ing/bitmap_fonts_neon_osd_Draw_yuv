@@ -139,5 +139,8 @@
 > 3. [bdf字体文件相关代码](https://blog.csdn.net/glietboys/article/details/1528038)
 > 4. [BDF 位图字体分布格式 wikipedia](https://zh.wikipedia.org/wiki/%E4%BD%8D%E5%9C%96%E5%AD%97%E9%AB%94%E5%88%86%E4%BD%88%E6%A0%BC%E5%BC%8F)
 > 5. [The X11 PCF bitmap font file format¶](https://fontforge.org/docs/techref/pcf-format.html)
+> 6. [UTF-8 往事](https://zhuanlan.zhihu.com/p/70264909)
+> 7. [UTF-8 编解码算法赏析](https://zhuanlan.zhihu.com/p/72254734)
 
 > 在 X Window System下的点阵字体规格是BDF/PCF，这两种其实是一样的，只不过PCF是经过编码压缩，是二位文件，档案可能会比较小，加载的时候效率也会比较好。BDF的话是纯文字文件，可以使用一般的文字编辑器就可以编修
+> 
