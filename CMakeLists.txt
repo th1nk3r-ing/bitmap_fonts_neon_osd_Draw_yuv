@@ -4,21 +4,22 @@
 # cmake最低版本需求，不加入此行会受到警告信息
 cmake_minimum_required(VERSION 3.0.0)
 
-project(Osd_Neon_Draw_Project C CXX ASM)  #项目名称
-set(Library_OutPutName "neonOsd")
-set(My_Target "neonOsdDemo")	#可执行文件名称
-
-#====================================================================================================================
-# 是否导出编译过程到 compile_commands.json 文件中
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-
 # 配置交叉编译工具链
 set(CMAKE_SYSTEM_NAME Linux)
-set(ndk_path "/mnt/d/Documents/Desktop/android/android-ndk-r10e")
+set(ndk_path "/home/think3r/bin/android-ndk-r14b")
 set(ndk_toolchains_prefix "${ndk_path}/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64/bin/arm-linux-androideabi-")
 set(CMAKE_C_COMPILER "${ndk_toolchains_prefix}gcc")
 set(CMAKE_CXX_COMPILER "${ndk_toolchains_prefix}g++")
 set(CMAKE_SYSROOT "${ndk_path}/platforms/android-14/arch-arm") # --sysroot 选项
+
+#====================================================================================================================
+
+project(Osd_Neon_Draw_Project C CXX ASM)  #项目名称
+set(Library_OutPutName "neonOsd")
+set(My_Target "neonOsdDemo")	#可执行文件名称
+
+# 是否导出编译过程到 compile_commands.json 文件中
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 message(STATUS  "----------------------------------------->")
 message(STATUS  "project name: " ${PROJECT_NAME})

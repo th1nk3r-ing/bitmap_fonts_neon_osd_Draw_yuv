@@ -14,6 +14,9 @@ link_directories(${PROJECT_BINARY_DIR}/lib)
 link_libraries(lib${Library_OutPutName}.a)
 add_executable(${My_Target} ${src_demo_List})
 
+# 配置依赖关系(需在对应 target 添加之后进行配置);
+add_dependencies( ${My_Target} ${Library_OutPutName}_static ${Library_OutPutName}_shared)
+
 target_link_libraries(${My_Target} -lstdc++ -lm -ldl )
 #target_link_libraries(${My_Target} -l${Library_OutPutName}) # 使用动态库
 
