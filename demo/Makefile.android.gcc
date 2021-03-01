@@ -35,7 +35,7 @@ C_Flags += -fPIE -pie
 
 Target = osd_demo
 # ndk gcc 不能直接连接上输出到挂载目录, 需转一层
-Target_WithPath = ~/$(Target)
+Target_WithPath = ./$(Target)
 
 #源文件
 Src_Files = ../osd_Draw/osd_base.c \

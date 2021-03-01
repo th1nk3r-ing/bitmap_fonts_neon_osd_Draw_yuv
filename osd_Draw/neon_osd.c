@@ -38,8 +38,8 @@
 /*----------------------------------------------*/
 /* 点阵查找表 */
 extern uint8_t dotTableNormal_u8[256][8];      /* 正常点阵 */
-extern uint16_t dotTableNormal[256][8];      /* 正常点阵 */
-extern uint16_t dotTableReverse[256][8];     /* 左右镜像 */
+extern uint16_t dotTableNormal_u16[256][8];      /* 正常点阵 */
+extern uint16_t dotTableReverse_u16[256][8];     /* 左右镜像 */
 
 
 /*----------------------------------------------*/
@@ -78,7 +78,7 @@ void neon_CreatAsciiDot_u16(uint8_t * pFont, uint16_t * pDst, uint32_t pitch, ui
             idx = *(pFont + i);
             pSroreDst = pDst + pitch * i;
 
-            lineDotSrc_16x8 = vld1q_u16(dotTableNormal[idx]);           /* 从速查表加载点阵 */
+            lineDotSrc_16x8 = vld1q_u16(dotTableNormal_u16[idx]);           /* 从速查表加载点阵 */
             tmpDot_16x8 = vandq_u16(lineDotSrc_16x8, lineDotDst_16x8);  /* 生成对应的像素值 */
             vst1q_u16(pSroreDst, tmpDot_16x8);                          /* 存储 */
         }
@@ -94,7 +94,7 @@ void neon_CreatAsciiDot_u16(uint8_t * pFont, uint16_t * pDst, uint32_t pitch, ui
             pSroreDst = pDst + pitch * i * scale;
             pStoreDst2 = pSroreDst + pitch;
 
-            lineDotSrc_16x8 = vld1q_u16(dotTableNormal[idx]);           /* 从速查表加载点阵 */
+            lineDotSrc_16x8 = vld1q_u16(dotTableNormal_u16[idx]);           /* 从速查表加载点阵 */
             tmp_16x8x2.val[0] = vandq_u16(lineDotSrc_16x8, lineDotDst_16x8);  /* 生成对应的像素值 */
 
             tmp_16x8x2.val[1] = tmp_16x8x2.val[0];
@@ -116,7 +116,7 @@ void neon_CreatAsciiDot_u16(uint8_t * pFont, uint16_t * pDst, uint32_t pitch, ui
             pStoreDst2 = pSroreDst + pitch;
             pStoreDst3 = pSroreDst + pitch * 2;
 
-            lineDotSrc_16x8 = vld1q_u16(dotTableNormal[idx]);                   /* 从速查表加载点阵 */
+            lineDotSrc_16x8 = vld1q_u16(dotTableNormal_u16[idx]);                   /* 从速查表加载点阵 */
             out_16x8x3.val[0] = vandq_u16(lineDotSrc_16x8, lineDotDst_16x8);    /* 生成对应的像素值 */
 
             out_16x8x3.val[1] = out_16x8x3.val[0];                              /* 行扩充 */
@@ -142,7 +142,7 @@ void neon_CreatAsciiDot_u16(uint8_t * pFont, uint16_t * pDst, uint32_t pitch, ui
             pStoreDst3 = pSroreDst + pitch * 2;
             pStoreDst4 = pSroreDst + pitch * 3;
 
-            lineDotSrc_16x8 = vld1q_u16(dotTableNormal[idx]);                   /* 从速查表加载点阵 */
+            lineDotSrc_16x8 = vld1q_u16(dotTableNormal_u16[idx]);                   /* 从速查表加载点阵 */
             out_16x8x4.val[0] = vandq_u16(lineDotSrc_16x8, lineDotDst_16x8);    /* 生成对应的像素值 */
 
             out_16x8x4.val[1] = out_16x8x4.val[0];                              /* 行扩充 */
@@ -200,10 +200,10 @@ void neon_CreatChineseDot_u16(uint8_t * pFont, uint16_t * pDst, uint32_t pitch, 
 
             pSroreDst = pDst + pitch * i;
 
-            tmpDot_16x8_1 = vld1q_u16(dotTableNormal[idx_1]);           /* 从速查表加载点阵 */
+            tmpDot_16x8_1 = vld1q_u16(dotTableNormal_u16[idx_1]);           /* 从速查表加载点阵 */
             tmp_16x8x2_1.val[0] = vandq_u16(tmpDot_16x8_1, lineDotDst_16x8);
 
-            tmpDot_16x8_2 = vld1q_u16(dotTableNormal[idx_2]);
+            tmpDot_16x8_2 = vld1q_u16(dotTableNormal_u16[idx_2]);
             tmp_16x8x2_1.val[1] = vandq_u16(tmpDot_16x8_2, lineDotDst_16x8);
 
             tmp_16x8x2_2 = vuzpq_u16(tmp_16x8x2_1.val[0], tmp_16x8x2_1.val[1]);
@@ -224,11 +224,11 @@ void neon_CreatChineseDot_u16(uint8_t * pFont, uint16_t * pDst, uint32_t pitch, 
             pSroreDst = pDst + pitch * i * scale;           /* 偶数行存储地址 */
             pStoreDst2 = pSroreDst + pitch;                 /* 奇数行存储地址 */
 
-            tmpDot_16x8_1 = vld1q_u16(dotTableNormal[idx_1]);                       /* 从速查表加载点阵 */
+            tmpDot_16x8_1 = vld1q_u16(dotTableNormal_u16[idx_1]);                       /* 从速查表加载点阵 */
             tmp_16x8x2_1.val[0] = vandq_u16(tmpDot_16x8_1, lineDotDst_16x8);     /* 生成对应的像素值 */
             tmp_16x8x2_1.val[1] = tmp_16x8x2_1.val[0];                        /* 行前 8bit 像素扩展 */
 
-            tmpDot_16x8_2 = vld1q_u16(dotTableNormal[idx_2]);
+            tmpDot_16x8_2 = vld1q_u16(dotTableNormal_u16[idx_2]);
             tmp_16x8x2_2.val[0] = vandq_u16(tmpDot_16x8_2, lineDotDst_16x8);
             tmp_16x8x2_2.val[1] = tmp_16x8x2_2.val[0];
 
@@ -255,12 +255,12 @@ void neon_CreatChineseDot_u16(uint8_t * pFont, uint16_t * pDst, uint32_t pitch, 
             pStoreDst2 = pSroreDst + pitch;
             pStoreDst3 = pSroreDst + pitch * 2;
 
-            tmpDot_16x8_1 = vld1q_u16(dotTableNormal[idx_1]);                   /* 从速查表加载点阵 */
+            tmpDot_16x8_1 = vld1q_u16(dotTableNormal_u16[idx_1]);                   /* 从速查表加载点阵 */
             out_16x8x3_1.val[0] = vandq_u16(tmpDot_16x8_1, lineDotDst_16x8);    /* 生成对应的像素值 */
             out_16x8x3_1.val[1] = out_16x8x3_1.val[0];
             out_16x8x3_1.val[2] = out_16x8x3_1.val[0];
 
-            tmpDot_16x8_2 = vld1q_u16(dotTableNormal[idx_2]);                   /* 从速查表加载点阵 */
+            tmpDot_16x8_2 = vld1q_u16(dotTableNormal_u16[idx_2]);                   /* 从速查表加载点阵 */
             out_16x8x3_2.val[0] = vandq_u16(tmpDot_16x8_2, lineDotDst_16x8);    /* 生成对应的像素值 */
             out_16x8x3_2.val[1] = out_16x8x3_2.val[0];
             out_16x8x3_2.val[2] = out_16x8x3_2.val[0];
@@ -291,13 +291,13 @@ void neon_CreatChineseDot_u16(uint8_t * pFont, uint16_t * pDst, uint32_t pitch, 
             pStoreDst3 = pSroreDst + pitch * 2;
             pStoreDst4 = pSroreDst + pitch * 3;
 
-            tmpDot_16x8_1 = vld1q_u16(dotTableNormal[idx_1]);                   /* 从速查表加载点阵 */
+            tmpDot_16x8_1 = vld1q_u16(dotTableNormal_u16[idx_1]);                   /* 从速查表加载点阵 */
             out_16x8x4_1.val[0] = vandq_u16(tmpDot_16x8_1, lineDotDst_16x8);    /* 生成对应的像素值 */
             out_16x8x4_1.val[1] = out_16x8x4_1.val[0];
             out_16x8x4_1.val[2] = out_16x8x4_1.val[0];
             out_16x8x4_1.val[3] = out_16x8x4_1.val[1];
 
-            tmpDot_16x8_2 = vld1q_u16(dotTableNormal[idx_2]);                   /* 从速查表加载点阵 */
+            tmpDot_16x8_2 = vld1q_u16(dotTableNormal_u16[idx_2]);                   /* 从速查表加载点阵 */
             out_16x8x4_2.val[0] = vandq_u16(tmpDot_16x8_2, lineDotDst_16x8);    /* 生成对应的像素值 */
             out_16x8x4_2.val[1] = out_16x8x4_2.val[0];
             out_16x8x4_2.val[2] = out_16x8x4_2.val[0];
@@ -324,7 +324,7 @@ void neon_CreatChineseDot_u16(uint8_t * pFont, uint16_t * pDst, uint32_t pitch, 
 
 
 /**
- * @function:   neon_CreatAsciiDot_yuv
+ * @function:   neon_CreatAsciiDot_yuv_u8
  * @brief:      生成 YUV 叠加 ascii 所需的点阵掩码
  * @param[in]:  uint8_t * pFont         字符字库地址
  * @param[in]:  uint8_t * pDst          目的点阵地址(需手动计算起始像素地址)
@@ -333,7 +333,7 @@ void neon_CreatChineseDot_u16(uint8_t * pFont, uint16_t * pDst, uint32_t pitch, 
  * @param[out]: None
  * @return:     void
  */
-void neon_CreatAsciiDot_yuv(uint8_t * pFont, uint8_t * pDst, uint32_t pitch, uint8_t scale)
+void neon_CreatAsciiDot_yuv_u8(uint8_t * pFont, uint8_t * pDst, uint32_t pitch, uint8_t scale)
 {
     if ((pFont == NULL) || (pDst == NULL))
     {
@@ -396,7 +396,7 @@ void neon_CreatAsciiDot_yuv(uint8_t * pFont, uint8_t * pDst, uint32_t pitch, uin
 
 
 /**
- * @function:   neon_CreatChineseDot_yuv
+ * @function:   neon_CreatChineseDot_yuv_u8
  * @brief:      生成 YUV 叠加 汉字 所需的点阵掩码, 只支持 x2, x4;
  * @param[in]:  uint8_t * pFont         字符字库地址
  * @param[in]:  uint8_t * pDst          目的点阵地址(需手动计算起始像素地址)
@@ -405,7 +405,7 @@ void neon_CreatAsciiDot_yuv(uint8_t * pFont, uint8_t * pDst, uint32_t pitch, uin
  * @param[out]: None
  * @return:     void
  */
-void neon_CreatChineseDot_yuv(uint8_t * pFont, uint8_t * pDst, uint32_t pitch, uint8_t scale)
+void neon_CreatChineseDot_yuv_u8(uint8_t * pFont, uint8_t * pDst, uint32_t pitch, uint8_t scale)
 {
     if ((pFont == NULL) || (pDst == NULL))
     {
@@ -418,7 +418,6 @@ void neon_CreatChineseDot_yuv(uint8_t * pFont, uint8_t * pDst, uint32_t pitch, u
 
     if(scale == 2)
     {
-        /* each:[0.336 us] */
         uint8x8x2_t tmp_8x8x2_1, tmp_8x8x2_2;            /* 存放交织后的数据 */
         uint8_t * pStoreDst2 = NULL;                     /* 奇数行存储地址 */
 
@@ -486,7 +485,7 @@ void neon_CreatChineseDot_yuv(uint8_t * pFont, uint8_t * pDst, uint32_t pitch, u
         Cprintf_yellow("[%s %d]  notSupport! scale:[%d]\n", __FUNCTION__, __LINE__, scale);
     }
 
-#if 0    //使用 dotTableNormal, 但效率更低
+#if 0    //使用 dotTableNormal_u16, 但效率更低
     if(scale == 2)
     {
         /* each:[0.380 us] */
@@ -501,8 +500,8 @@ void neon_CreatChineseDot_yuv(uint8_t * pFont, uint8_t * pDst, uint32_t pitch, u
             pSroreDst = pDst + pitch * i * 2;
             pStoreDst2 = pSroreDst + pitch;
 
-            tmp_8x16_1 = vld1q_u8( (uint8_t *) (dotTableNormal[idx_1]) );           /* 从速查表加载点阵 */
-            tmp_8x16_2 = vld1q_u8( (uint8_t *) (dotTableNormal[idx_2]) );           /* 从速查表加载点阵 */
+            tmp_8x16_1 = vld1q_u8( (uint8_t *) (dotTableNormal_u16[idx_1]) );           /* 从速查表加载点阵 */
+            tmp_8x16_2 = vld1q_u8( (uint8_t *) (dotTableNormal_u16[idx_2]) );           /* 从速查表加载点阵 */
 
             vst1q_u8(pSroreDst, tmp_8x16_1);                  /* 存储行前 8bit 像素 */
             vst1q_u8(pSroreDst + HZ_WIDTH, tmp_8x16_2);       /* 存储行后 8bit 像素 */
@@ -529,9 +528,9 @@ void neon_CreatChineseDot_yuv(uint8_t * pFont, uint8_t * pDst, uint32_t pitch, u
             pStoreDst3 = pSroreDst + pitch * 2;
             pStoreDst4 = pSroreDst + pitch * 3;
 
-            tmp_8x16x2_1.val[0] = vld1q_u8( (uint8_t *) (dotTableNormal[idx_1]) );           /* 从速查表加载点阵 */
+            tmp_8x16x2_1.val[0] = vld1q_u8( (uint8_t *) (dotTableNormal_u16[idx_1]) );           /* 从速查表加载点阵 */
             tmp_8x16x2_1.val[1] = tmp_8x16x2_1.val[0];
-            tmp_8x16x2_2.val[0] = vld1q_u8( (uint8_t *) (dotTableNormal[idx_2]) );           /* 从速查表加载点阵 */
+            tmp_8x16x2_2.val[0] = vld1q_u8( (uint8_t *) (dotTableNormal_u16[idx_2]) );           /* 从速查表加载点阵 */
             tmp_8x16x2_2.val[1] = tmp_8x16x2_2.val[0];
 
             vst2q_u8(pSroreDst, tmp_8x16x2_1);                  /* 存储行前 8bit 像素 */
@@ -551,14 +550,14 @@ void neon_CreatChineseDot_yuv(uint8_t * pFont, uint8_t * pDst, uint32_t pitch, u
     {
         Cprintf_yellow("[%s %d]  notSupport! scale:[%d]\n", __FUNCTION__, __LINE__, scale);
     }
-#endif   /* end of (#if 0  //使用 dotTableNormal, 但效率更低) */
+#endif   /* end of (#if 0  //使用 dotTableNormal_u16, 但效率更低) */
 
     return;
 }
 
 
 /**
- * @function:   neon_DrawDot_Y
+ * @function:   _neon_DrawDot_Y
  * @brief:      绘制 Y 分量
  * @param[in]:  uint32_t startIdx
  * @param[in]:  uint8_t * m_pDst
@@ -573,7 +572,7 @@ void neon_CreatChineseDot_yuv(uint8_t * pFont, uint8_t * pDst, uint32_t pitch, u
  * @param[out]: None
  * @return:     static void inline
  */
-static void inline neon_DrawDot_Y(uint32_t startIdx,
+static void inline _neon_DrawDot_Y(uint32_t startIdx,
                              uint8_t * m_pDst,    uint8_t * m_pDot,
                              uint32_t x16_Cnt,    uint32_t lineIdx,  uint32_t j,
                              uint8x16_t dst_8x16_1, uint8x16_t y_8x16_1, uint8x16_t dot_8x16_1,
@@ -646,7 +645,7 @@ void neon_DrawDot_YUV_Gray(YUV_DRAW_PARAM * pParam)
     m_pDot = pParam->pDot;
     x16_Cnt = pParam->dotWidth / 16; /* Y 操作一次赋值 16 个像素 */
 
-    neon_DrawDot_Y(startIdx,
+    _neon_DrawDot_Y(startIdx,
                     m_pDst, m_pDot,
                     x16_Cnt, lineIdx, j,
                     dst_8x16_1, y_8x16_1, dot_8x16_1,
@@ -688,7 +687,7 @@ void neon_DrawDot_I420_YV12(YUV_DRAW_PARAM * pParam)
     m_pDot = pParam->pDot;
     x16_Cnt = pParam->dotWidth / 16; /* Y 操作一次赋值 16 个像素 */
 
-    neon_DrawDot_Y(startIdx,
+    _neon_DrawDot_Y(startIdx,
                     m_pDst, m_pDot,
                     x16_Cnt, lineIdx, j,
                     dst_8x16_1, y_8x16_1, dot_8x16_1,
@@ -778,7 +777,7 @@ void neon_DrawDot_NV12_NV21(YUV_DRAW_PARAM * pParam)
     m_pDot = pParam->pDot;
     x16_Cnt = (pParam->dotWidth / 16); /* Y 操作一次赋值 16 个像素 */
 
-    neon_DrawDot_Y(startIdx,
+    _neon_DrawDot_Y(startIdx,
                     m_pDst, m_pDot,
                     x16_Cnt, lineIdx, j,
                     dst_8x16_1, y_8x16_1, dot_8x16_1,

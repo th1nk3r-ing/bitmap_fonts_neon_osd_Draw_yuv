@@ -46,10 +46,10 @@ extern void neon_CreatAsciiDot_u16(uint8_t * pFont, uint16_t * pDst,
 extern void neon_CreatChineseDot_u16(uint8_t * pFont, uint16_t * pDst, 
                                                uint32_t pitch, uint8_t scale, uint16_t color);
                                             
-extern void neon_CreatAsciiDot_yuv(uint8_t * pFont, uint8_t * pDst, 
+extern void neon_CreatAsciiDot_yuv_u8(uint8_t * pFont, uint8_t * pDst, 
                                                 uint32_t pitch, uint8_t scale);
 
-extern void neon_CreatChineseDot_yuv(uint8_t * pFont, uint8_t * pDst, 
+extern void neon_CreatChineseDot_yuv_u8(uint8_t * pFont, uint8_t * pDst, 
                                                 uint32_t pitch, uint8_t scale);
 
 extern void neon_DrawDot_YUV_Gray(YUV_DRAW_PARAM * pParam);

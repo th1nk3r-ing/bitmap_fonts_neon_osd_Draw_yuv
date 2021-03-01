@@ -1,6 +1,10 @@
-# <font color=#0099ff> **osd 点阵字符绘制** </font>
+# <font color=#0099ff> **bitmap-fonts, osd, neon, draw, yuv** </font>
 
-> `@think3r` 2019-08-18 20:45:21
+## :large_blue_circle: 国际化
+
+[English](./readme_en.md) | 中文文档
+
+> `@think3r` 2019-08-18 20:45:21 <br />
 > 参考链接:
 > 1. [RealView® 编译工具-汇编程序指南(pdf)]()
 > 2. [ARM Neon: conditional store suggestion](https://stackoverflow.com/questions/18312814/arm-neon-conditional-store-suggestion)
@@ -14,16 +18,18 @@
 
 ## <font color=#009A000> 0x00 简介 </font>
 
-通过 arm 平台下的 neon 技术加速如下两个多媒体 osd 字符功能:
+通过 arm 平台下的 neon 技术加速如下两个多媒体 OSD 字符叠加功能:
 
 1. 拓展 `1bit` 字符点阵至 `8bit` / `16bit` ;
 2. 直接在多种 `YUV` 上叠加字符;
+
+    ![yuv叠加效果](./yuv_osd.png)
 
 ## <font color=#009A000> 0x01 support </font>
 
 - arm 平台下 neon 加速 osd 字符点阵操作:
     1. 点阵(`1bit`) 扩充至 ` 1Byte` 和 `2Byte`;
-        - 2 字节的输出可以是任意值, 如 `ARGB1555, ARGB4444, RGB565` 等等;
+        - `2Byte` 的输出可以是任意值, 如 `ARGB1555, ARGB4444, RGB565` 等等;
     2. 在 YUV 格式上直接绘制 OSD;
         - 支持 YUV420 中的 `I420, YV12, NV12, NV21`;
         - 支持 YUV422 中的 `YUYV, UYVY` ;
@@ -96,9 +102,11 @@
 - `u8` 和 `u16` 点阵简易查看方式: `beyond Compare 4`:
     1. 16 进制比较生成的两个 bin 文件 `osdOut.bin` 和 `osdOut_copy.bin` (文件内容相同);
     2. `视图` -> `布局` 中的 每组字节数, 配置为程序运行输出的 `pitch` 值; 如下图所示:
+
      ![beyond Compare 输出](./bc.png)
 
 - yuv 字符叠加效果图:
+
     ![yuv叠加效果](./yuv_osd.png)
   
 ## <font color=#009A000> 0x03 测试数据如下 </font>

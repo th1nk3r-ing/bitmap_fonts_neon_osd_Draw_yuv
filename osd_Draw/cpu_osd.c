@@ -33,8 +33,8 @@
 /*----------------------------------------------*/
 /*                 全局变量                     */
 /*----------------------------------------------*/
-extern uint16_t dotTableNormal[256][8];      /* 正常点阵 */
-extern uint16_t dotTableReverse[256][8];     /* 左右镜像 */
+extern uint16_t dotTableNormal_u16[256][8];      /* 正常点阵 */
+extern uint16_t dotTableReverse_u16[256][8];     /* 左右镜像 */
 
 /*----------------------------------------------*/
 /*                 函数定义                     */
@@ -74,7 +74,7 @@ void cpu_DrawAscii( uint8_t *   pFont,
         case 1:
             for (hIdx = 0; hIdx < FRONT_HEIGHT; hIdx++)
             {
-                pDotTableValue = dotTableNormal[pFont[hIdx]];
+                pDotTableValue = dotTableNormal_u16[pFont[hIdx]];
                 for (k = 0; k < ASCII_WIDTH; k++)
                 {
                     pTemp[hIdx * pitch + k] = pDotTableValue[k] & color;
@@ -84,7 +84,7 @@ void cpu_DrawAscii( uint8_t *   pFont,
         case 2:
             for (hIdx = 0; hIdx < FRONT_HEIGHT; hIdx++)
             {
-                pDotTableValue = dotTableNormal[pFont[hIdx]];
+                pDotTableValue = dotTableNormal_u16[pFont[hIdx]];
                 for (k = 0; k < ASCII_WIDTH; k++)
                 {
                     pTemp[(hIdx * pitch + k) * 2 + 0] = pDotTableValue[k] & color;
@@ -95,7 +95,7 @@ void cpu_DrawAscii( uint8_t *   pFont,
         case 3:
             for (hIdx = 0; hIdx < FRONT_HEIGHT; hIdx++)
             {
-                pDotTableValue = dotTableNormal[pFont[hIdx]];
+                pDotTableValue = dotTableNormal_u16[pFont[hIdx]];
                 for (k = 0; k < ASCII_WIDTH; k++)
                 {
                     pTemp[(hIdx * pitch + k) * 3 + 0] = pDotTableValue[k] & color;
@@ -107,7 +107,7 @@ void cpu_DrawAscii( uint8_t *   pFont,
         case 4:
             for (hIdx = 0; hIdx < FRONT_HEIGHT; hIdx++)
             {
-                pDotTableValue = dotTableNormal[pFont[hIdx]];
+                pDotTableValue = dotTableNormal_u16[pFont[hIdx]];
                 for (k = 0; k < ASCII_WIDTH; k++)
                 {
                     pTemp[(hIdx * pitch + k) * 4 + 0] = pDotTableValue[k] & color;
@@ -136,7 +136,7 @@ void cpu_DrawAscii( uint8_t *   pFont,
 #else
     for (hIdx = 0; hIdx < FRONT_HEIGHT; hIdx++)
     {
-        pDotTableValue = dotTableNormal[pFont[hIdx]];
+        pDotTableValue = dotTableNormal_u16[pFont[hIdx]];
 
         /* 生成字符的行 */
         for (k = 0; k < ASCII_WIDTH; k++)
@@ -199,8 +199,8 @@ void cpu_DrawChinese(      uint8_t *   pFont,
         case 1:
             for (hIdx = 0; hIdx < FRONT_HEIGHT; hIdx++)
             {
-                pDotTableValue_1 = dotTableNormal[pFont[hIdx * 2]];
-                pDotTableValue_2 = dotTableNormal[pFont[hIdx * 2 + 1]];
+                pDotTableValue_1 = dotTableNormal_u16[pFont[hIdx * 2]];
+                pDotTableValue_2 = dotTableNormal_u16[pFont[hIdx * 2 + 1]];
                 for (k = 0; k < ASCII_WIDTH; k++)
                 {
                     pTemp[hIdx * pitch + k] = pDotTableValue_1[k] & color;
@@ -211,8 +211,8 @@ void cpu_DrawChinese(      uint8_t *   pFont,
         case 2:
             for (hIdx = 0; hIdx < FRONT_HEIGHT; hIdx++)
             {
-                pDotTableValue_1 = dotTableNormal[pFont[hIdx * 2]];
-                pDotTableValue_2 = dotTableNormal[pFont[hIdx * 2 + 1]];
+                pDotTableValue_1 = dotTableNormal_u16[pFont[hIdx * 2]];
+                pDotTableValue_2 = dotTableNormal_u16[pFont[hIdx * 2 + 1]];
                 for (k = 0; k < ASCII_WIDTH; k++)
                 {
                     pTemp[(hIdx * pitch + k) * 2 + 0] = pDotTableValue_1[k] & color;
@@ -225,8 +225,8 @@ void cpu_DrawChinese(      uint8_t *   pFont,
         case 3:
             for (hIdx = 0; hIdx < FRONT_HEIGHT; hIdx++)
             {
-                pDotTableValue_1 = dotTableNormal[pFont[hIdx * 2]];
-                pDotTableValue_2 = dotTableNormal[pFont[hIdx * 2 + 1]];
+                pDotTableValue_1 = dotTableNormal_u16[pFont[hIdx * 2]];
+                pDotTableValue_2 = dotTableNormal_u16[pFont[hIdx * 2 + 1]];
                 for (k = 0; k < ASCII_WIDTH; k++)
                 {
                     pTemp[(hIdx * pitch + k) * 3 + 0] = pDotTableValue_1[k] & color;
@@ -241,8 +241,8 @@ void cpu_DrawChinese(      uint8_t *   pFont,
         case 4:
             for (hIdx = 0; hIdx < FRONT_HEIGHT; hIdx++)
             {
-                pDotTableValue_1 = dotTableNormal[pFont[hIdx * 2]];
-                pDotTableValue_2 = dotTableNormal[pFont[hIdx * 2 + 1]];
+                pDotTableValue_1 = dotTableNormal_u16[pFont[hIdx * 2]];
+                pDotTableValue_2 = dotTableNormal_u16[pFont[hIdx * 2 + 1]];
                 for (k = 0; k < ASCII_WIDTH; k++)
                 {
                     pTemp[(hIdx * pitch + k) * 4 + 0] = pDotTableValue_1[k] & color;
@@ -273,8 +273,8 @@ void cpu_DrawChinese(      uint8_t *   pFont,
 #else
     for (hIdx = 0; hIdx < FRONT_HEIGHT; hIdx++)
     {
-        pDotTableValue_1 = dotTableNormal[pFont[hIdx * 2]];
-        pDotTableValue_2 = dotTableNormal[pFont[hIdx * 2 + 1]];
+        pDotTableValue_1 = dotTableNormal_u16[pFont[hIdx * 2]];
+        pDotTableValue_2 = dotTableNormal_u16[pFont[hIdx * 2 + 1]];
 
         for (k = 0; k < ASCII_WIDTH; k++)
         {

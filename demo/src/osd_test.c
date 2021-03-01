@@ -157,7 +157,7 @@ static uint32_t demo_neon_AsciiDot_YUV(void * pMem, uint8_t scale)
 
         printf("[%s %d]  [%c]\n", __FUNCTION__, __LINE__, *pChar);
 
-        neon_CreatAsciiDot_yuv(pCharAddr, charDstStartX, pitch, scale);
+        neon_CreatAsciiDot_yuv_u8(pCharAddr, charDstStartX, pitch, scale);
     }
 
     return pitch;
@@ -188,7 +188,7 @@ static uint32_t demo_neon_ChineseDot_YUV(void * pMem, uint8_t scale)
         printf("[%s %d]  [%s], [%#04x], start:[%d]\n",
             __FUNCTION__, __LINE__, (char *)pChar, HzValue, i * HZ_WIDTH * scale);
 
-        neon_CreatChineseDot_yuv(pCharAddr, charDstStartX_Hz, pitchHz, scale);
+        neon_CreatChineseDot_yuv_u8(pCharAddr, charDstStartX_Hz, pitchHz, scale);
     }
 
     return pitchHz;
@@ -363,11 +363,11 @@ uint32_t speadTest_CreatYuvDot(void * pMem, uint32_t charNum, uint8_t scale, uin
         /* NEON ≤‚ ‘ */
         if(charWidth == ASCII_WIDTH)
         {
-            neon_CreatAsciiDot_yuv(pCharAddr, charDstStartX, pitch, scale);
+            neon_CreatAsciiDot_yuv_u8(pCharAddr, charDstStartX, pitch, scale);
         }
         else
         {
-            neon_CreatChineseDot_yuv(pCharAddr, charDstStartX, pitch, scale);
+            neon_CreatChineseDot_yuv_u8(pCharAddr, charDstStartX, pitch, scale);
         }
     }
 

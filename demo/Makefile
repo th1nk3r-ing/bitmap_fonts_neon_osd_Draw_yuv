@@ -4,10 +4,10 @@ prt_Red="\e[1;31m"
 prt_End="\e[0m"
 
 # ndk 根目录(使用绝对路径)
-Ndk_Path=/home/think3r/win_Desktop/android/android-ndk-r20
+Ndk_Path=/home/think3r/bin/android-ndk-r22
 
 # 编译器 
-ToolChains_PreFix=$(Ndk_Path)/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android21-
+ToolChains_PreFix=$(Ndk_Path)/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android30-
 CC=$(ToolChains_PreFix)clang
 
 # SDK根目录(sysroot)

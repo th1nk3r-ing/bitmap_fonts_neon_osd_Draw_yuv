@@ -42,9 +42,9 @@ uint8_t HzFrontDot[HZK16_FRONT_SIZE] = {0};         /* 汉字字库 16*16 */
 uint8_t AsciiFrontDot[ASCII8_FRONT_SIZE] = {0};     /* ASCII 字库 8*16*/
 
 /* 点阵查找表 */
-uint8_t dotTableNormal_u8[256][8];      /* 正常点阵 */
-uint16_t dotTableNormal[256][8];      /* 正常点阵 */
-uint16_t dotTableReverse[256][8];     /* 左右镜像 */
+uint8_t dotTableNormal_u8[256][8];        /* 正常点阵 */
+uint16_t dotTableNormal_u16[256][8];      /* 正常点阵 */
+uint16_t dotTableReverse_u16[256][8];     /* 左右镜像 */
 
 /*----------------------------------------------*/
 /*                  函数定义                    */
@@ -75,20 +75,11 @@ uint32_t getTime_ms(void)
 void osd_Init(void)
 {
     uint16_t i = 0;
+    uint8_t tabColorMask_u8 = 0xFFu;    
     uint16_t tabColorMask = 0xFFFFu;
-    uint8_t tabColorMask_u8 = 0xFFu;
 
     for(i = 0; i < 256; i++)
     {
-        dotTableNormal[i][0] = (i & 0x80) ? tabColorMask : 0x0000;
-        dotTableNormal[i][1] = (i & 0x40) ? tabColorMask : 0x0000;
-        dotTableNormal[i][2] = (i & 0x20) ? tabColorMask : 0x0000;
-        dotTableNormal[i][3] = (i & 0x10) ? tabColorMask : 0x0000;
-        dotTableNormal[i][4] = (i & 0x08) ? tabColorMask : 0x0000;
-        dotTableNormal[i][5] = (i & 0x04) ? tabColorMask : 0x0000;
-        dotTableNormal[i][6] = (i & 0x02) ? tabColorMask : 0x0000;
-        dotTableNormal[i][7] = (i & 0x01) ? tabColorMask : 0x0000;
-
         dotTableNormal_u8[i][0] = (i & 0x80u) ? tabColorMask_u8 : 0x00u;
         dotTableNormal_u8[i][1] = (i & 0x40u) ? tabColorMask_u8 : 0x00u;
         dotTableNormal_u8[i][2] = (i & 0x20u) ? tabColorMask_u8 : 0x00u;
@@ -97,15 +88,24 @@ void osd_Init(void)
         dotTableNormal_u8[i][5] = (i & 0x04u) ? tabColorMask_u8 : 0x00u;
         dotTableNormal_u8[i][6] = (i & 0x02u) ? tabColorMask_u8 : 0x00u;
         dotTableNormal_u8[i][7] = (i & 0x01u) ? tabColorMask_u8 : 0x00u;
+    
+        dotTableNormal_u16[i][0] = (i & 0x80) ? tabColorMask : 0x0000;
+        dotTableNormal_u16[i][1] = (i & 0x40) ? tabColorMask : 0x0000;
+        dotTableNormal_u16[i][2] = (i & 0x20) ? tabColorMask : 0x0000;
+        dotTableNormal_u16[i][3] = (i & 0x10) ? tabColorMask : 0x0000;
+        dotTableNormal_u16[i][4] = (i & 0x08) ? tabColorMask : 0x0000;
+        dotTableNormal_u16[i][5] = (i & 0x04) ? tabColorMask : 0x0000;
+        dotTableNormal_u16[i][6] = (i & 0x02) ? tabColorMask : 0x0000;
+        dotTableNormal_u16[i][7] = (i & 0x01) ? tabColorMask : 0x0000;
 
-        dotTableReverse[i][7] = (i & 0x80) ? tabColorMask : 0x0000;
-        dotTableReverse[i][6] = (i & 0x40) ? tabColorMask : 0x0000;
-        dotTableReverse[i][5] = (i & 0x20) ? tabColorMask : 0x0000;
-        dotTableReverse[i][4] = (i & 0x10) ? tabColorMask : 0x0000;
-        dotTableReverse[i][3] = (i & 0x08) ? tabColorMask : 0x0000;
-        dotTableReverse[i][2] = (i & 0x04) ? tabColorMask : 0x0000;
-        dotTableReverse[i][1] = (i & 0x02) ? tabColorMask : 0x0000;
-        dotTableReverse[i][0] = (i & 0x01) ? tabColorMask : 0x0000;
+        dotTableReverse_u16[i][7] = (i & 0x80) ? tabColorMask : 0x0000;
+        dotTableReverse_u16[i][6] = (i & 0x40) ? tabColorMask : 0x0000;
+        dotTableReverse_u16[i][5] = (i & 0x20) ? tabColorMask : 0x0000;
+        dotTableReverse_u16[i][4] = (i & 0x10) ? tabColorMask : 0x0000;
+        dotTableReverse_u16[i][3] = (i & 0x08) ? tabColorMask : 0x0000;
+        dotTableReverse_u16[i][2] = (i & 0x04) ? tabColorMask : 0x0000;
+        dotTableReverse_u16[i][1] = (i & 0x02) ? tabColorMask : 0x0000;
+        dotTableReverse_u16[i][0] = (i & 0x01) ? tabColorMask : 0x0000;
     }
 
     size_t readSize = 0;
