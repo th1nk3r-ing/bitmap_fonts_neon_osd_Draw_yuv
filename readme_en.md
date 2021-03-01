@@ -46,7 +46,7 @@ Accelerate the following two multimedia OSD character overlay functions through 
    2. YUV-OSD-Overlay : **`x2, x4`** ;
       - Does not support `x1` & `x3`, because YUV420 sampling 1/2 on horizontal and vertical ;
 
-## <font color=#009A000> 0x02 使用方法 </font>
+## <font color=#009A000> 0x02 Build </font>
 
 ```
 ./
@@ -95,17 +95,18 @@ Accelerate the following two multimedia OSD character overlay functions through 
     3. `vi Makefile` and chang `ndk-r20` path;
     4. `make clean && make`
     5. Send the executable-binary and necessary yuv files to the phone, then run `./osd_demo`
+
 - `u8` 和 `u16` 点阵简易查看方式: `beyond Compare 4`:
     1. 16 进制比较生成的两个 bin 文件 `osdOut.bin` 和 `osdOut_copy.bin` (文件内容相同);
     2. `视图` -> `布局` 中的 每组字节数, 配置为程序运行输出的 `pitch` 值; 如下图所示:
 
      ![beyond Compare 输出](./bc.png)
 
-- yuv 字符叠加效果图:
+- yuv-overlay example:
 
     ![yuv叠加效果](./yuv_osd.png)
   
-## <font color=#009A000> 0x03 测试数据如下 </font>
+## <font color=#009A000> 0x03 Performance </font>
 
 ### <font color=#FF4500> u16 dot expand </font>
 
