@@ -112,14 +112,21 @@ Accelerate the following two multimedia OSD character overlay functions through 
 
 - Test data size : `256,0000`
 - Compiler optimization level : `-O2`
-- Test phone: `xiaomi-6`
+- Test phone :
+  - `xiaomi-6`, `Snapdragon-835`
+  - `Redmi K30 Pro`, `Snapdragon-865`
 - Phone environment: `termux`
 - Compiler: `ndk-r20-clang @ununtu`
 - The test procedure is `@64bit`;
 
-| front scale | cpu all | cpu average | neon all | neon average |
-| --- | --- | --- | --- | --- |
-| 8 * 16 | 433 ms | 0.169 us | 132 ms | 0.052 us |
-| 16 * 32 | 1206 ms | 0.471 us | 341 ms | 0.133 us |
-| 24 * 48 | 2164 ms | 0.845 us | 565 ms | 0.221 us |
-| 32 * 64 | 2686 ms | 1.049 us | 861 ms | 0.334 us |
+- result `835` :
+   | front scale | cpu all | cpu average | neon all | neon average |
+   | --- | --- | --- | --- | --- |
+   | 8 * 16 | 433 ms | 0.169 us | 132 ms | 0.052 us |
+   | 16 * 32 | 1206 ms | 0.471 us | 341 ms | 0.133 us |
+   | 24 * 48 | 2164 ms | 0.845 us | 565 ms | 0.221 us |
+   | 32 * 64 | 2686 ms | 1.049 us | 861 ms | 0.334 us |
+- result `865` :
+   | front scale | cpu all | cpu average | neon all | neon average |
+   | --- | --- | --- | --- | --- |
+   | 16 * 32 | 490 ms | 0.191 us | 113 ms | 0.044 us |

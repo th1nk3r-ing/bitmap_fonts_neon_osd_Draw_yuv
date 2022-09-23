@@ -6,7 +6,7 @@ prt_End="\e[0m"
 # ndk 根目录(使用绝对路径)
 Ndk_Path=/home/think3r/bin/android-ndk-r22
 
-# 编译器 
+# 编译器
 ToolChains_PreFix=$(Ndk_Path)/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android30-
 CC=$(ToolChains_PreFix)clang
 
@@ -19,7 +19,7 @@ MAKEFLAGS = -j
 Target = osd_demo
 
 Include_Dir :=  -I./inc/ \
-				-I../osd_Draw/ 
+				-I../osd_Draw/
 
 # 编译选项
 C_Flags += -g -Wall -Wno-unused -Wconversion -Wno-uninitialized -Wno-sign-conversion
@@ -44,13 +44,13 @@ Objs := $(Src_Files:.c=.o)
 
 # 链接输出
 $(Target) : $(Objs)
-	$(CC) $(C_Flags) -o $(Target) $(Objs) 
-	@echo -e $(prt_Green) "\n****** make OK! *****\n" $(prt_End)		
+	$(CC) $(C_Flags) -o $(Target) $(Objs)
+	@echo -e $(prt_Green) "\n****** make OK! *****\n" $(prt_End)
 
 # 编译源文件
 $(Objs) : %.o : %.c
 	$(CC) $(C_Flags) -c $< -o $@
-	
+
 .PHONY : clean test run
 
 run :
@@ -59,12 +59,12 @@ run :
 	busybox tftp -gl osdOut.bin 192.168.1.11:6969 -b 65434
 	busybox tftp -gl osdOut_copy.bin 192.168.1.11:6969 -b 65434
 
-test : 
+test :
 	@echo -e $(prt_Yellow) "*************************************************************" $(prt_End)
-	@echo -e $(prt_Green) $(Src_Files) $(prt_End)	
-	@echo -e $(prt_Green) $(Objs) $(prt_End)	
-	@echo -e $(prt_Green) $(shell pwd) $(prt_End)	
+	@echo -e $(prt_Green) $(Src_Files) $(prt_End)
+	@echo -e $(prt_Green) $(Objs) $(prt_End)
+	@echo -e $(prt_Green) $(shell pwd) $(prt_End)
 	@echo -e $(prt_Yellow) "*************************************************************" $(prt_End)
-	
+
 clean :
 	-rm -rf $(Target) $(Objs)

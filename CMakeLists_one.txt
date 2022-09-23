@@ -6,8 +6,14 @@ cmake_minimum_required(VERSION 3.0.0)
 
 # 配置交叉编译工具链
 # 	自动导入
-set(CMAKE_TOOLCHAIN_FILE "/home/think3r/bin/android-ndk-r14b/build/cmake/android.toolchain.cmake")
-set(ANDROID_TOOLCHAIN "gcc")
+set(ANDROID_NDK "/Users/think3r/bin/android-ndk-r23")
+set(CMAKE_TOOLCHAIN_FILE "${ANDROID_NDK}/build/cmake/android.toolchain.cmake")
+#set(CMAKE_TOOLCHAIN_FILE "$ENV{ANDROID_NDK}/build/cmake/android.toolchain.cmake")
+#set(ANDROID_TOOLCHAIN "gcc")
+#set(ANDROID_ABI  "arm64-v8a")
+set(ANDROID_ABI  "armeabi-v7a")
+set(ANDROID_PLATFORM "android-24")
+
 # 	手动配置
 # set(CMAKE_SYSTEM_NAME Linux)
 # set(ndk_path "/home/think3r/bin/android-ndk-r14b")
@@ -23,7 +29,6 @@ set(My_Target "neonOsdDemo")	#可执行文件名称
 
 # 是否导出编译过程到 compile_commands.json 文件中
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-
 
 message(STATUS  "----------------------------------------->")
 message(STATUS "project name: " ${PROJECT_NAME})
@@ -64,16 +69,16 @@ set_target_properties(${Library_OutPutName}_static PROPERTIES
 # 设置动态库版本号, 主要是为了解决 linux 上的 dll-hell 问题;
 #  [LINUX下动态库及版本号控制](https://blog.csdn.net/David_xtd/article/details/7045792)
 # {libname.so.x.y.z (real name) ->  x是主版本号(Major Version Number)，y是次版本号(Minor Version Number)，z是发布版本号(Release Version Number) }
-set_target_properties(${Library_OutPutName}_shared PROPERTIES VERSION 1.2.3 SOVERSION 1) 
+set_target_properties(${Library_OutPutName}_shared PROPERTIES VERSION 1.2.3 SOVERSION 1)
 
 # 安装共享库和头文件:
 # 设置库文件文件输出目录
-#set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/install/lib) 
+#set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/install/lib)
 install(TARGETS ${Library_OutPutName}_shared ${Library_OutPutName}_static
 		LIBRARY DESTINATION ${PROJECT_SOURCE_DIR}/install/lib
 		ARCHIVE DESTINATION ${PROJECT_SOURCE_DIR}/install/lib)
 file(GLOB lib_include_files ./osd_Draw/*.h)
-install(FILES ${lib_include_files} 
+install(FILES ${lib_include_files}
 		DESTINATION ${PROJECT_SOURCE_DIR}/install/include)
 
 #========================================== 测试 demo 的生成 =======================================================
@@ -86,12 +91,11 @@ aux_source_directory(./demo/src/ src_demo_List)
 
 # 链接文件夹路径 (使用绝对路径可避免报错)
 link_directories(${PROJECT_BINARY_DIR}/)
-# link_libraries -> Link libraries to all targets added later. 
-# 静态库 (add_executable 之前指定) 
-#link_libraries(lib${Library_OutPutName}.a)
+# link_libraries -> Link libraries to all targets added later.
+# 静态库 (add_executable 之前指定)
+link_libraries(lib${Library_OutPutName}.a)
 add_executable(${My_Target} ${src_demo_List})
-target_link_libraries(${My_Target} -lstdc++ -lm -ldl )
-target_link_libraries(${My_Target} -l${PROJECT_BINARY_DIR}/lib${Library_OutPutName}.a )
+target_link_libraries(${My_Target} -lm -ldl -v)
 
 # 配置依赖关系(需在对应 target 添加之后进行配置);
 add_dependencies(${My_Target}  ${Library_OutPutName}_shared ${Library_OutPutName}_static )
@@ -99,3 +103,5 @@ add_dependencies(${My_Target}  ${Library_OutPutName}_shared ${Library_OutPutName
 # make install
 install(TARGETS ${My_Target} DESTINATION ${PROJECT_SOURCE_DIR}/install
 		PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ GROUP_EXECUTE GROUP_READ WORLD_EXECUTE)
+install(FILES ${PROJECT_SOURCE_DIR}/demo/ASCII8 ${PROJECT_SOURCE_DIR}/demo/HZK16
+        DESTINATION ${PROJECT_SOURCE_DIR}/install)

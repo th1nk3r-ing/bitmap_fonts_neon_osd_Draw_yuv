@@ -26,8 +26,8 @@
 /*----------------------------------------------*/
 #define COLOR_ARGB1555      (0x05FFu)     /* µ„’Û—’…´ */
 
-//#define NEW_CPU_TEST
-#define NEON_TEST
+#define NEW_CPU_TEST
+// #define NEON_TEST
 #define TEST_SCALE (1)
 
 /*----------------------------------------------*/

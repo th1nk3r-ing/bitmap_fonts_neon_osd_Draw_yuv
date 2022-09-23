@@ -583,7 +583,7 @@ int main(void)
   /****************************** u16 dot *******************************/
 
     /* creat-u16-dot-test(功能性) */
-    test_CreatOsdDot_u16_func(pMem, memSize / 2, 1, ASCII_WIDTH);
+    // test_CreatOsdDot_u16_func(pMem, memSize / 2, 1, ASCII_WIDTH);
 //    test_CreatOsdDot_u16_func(pMem, memSize / 2, 2, ASCII_WIDTH);
 //    test_CreatOsdDot_u16_func(pMem, memSize / 2, 3, ASCII_WIDTH);
 //    test_CreatOsdDot_u16_func(pMem, memSize / 2, 4, ASCII_WIDTH);
@@ -593,7 +593,7 @@ int main(void)
 //    test_CreatOsdDot_u16_func(pMem, memSize / 2, 4, HZ_WIDTH);
 
     /* creat-u16-dot-spead-test(效率测试) */
-//    test_CreatOsdDot_u16_Spead(pMem, memSize / 2);
+    test_CreatOsdDot_u16_Spead(pMem, memSize / 2);
 
    /****************************** yuv dot *******************************/
 
