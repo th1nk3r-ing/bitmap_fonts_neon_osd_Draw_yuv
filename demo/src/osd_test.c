@@ -16,6 +16,7 @@
 /*----------------------------------------------*/
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "osd_test.h"
 #include "cpu_osd.h"
@@ -26,8 +27,8 @@
 /*----------------------------------------------*/
 #define COLOR_ARGB1555      (0x05FFu)     /* 点阵颜色 */
 
-#define NEW_CPU_TEST
-// #define NEON_TEST
+// #define NEW_CPU_TEST
+ #define NEON_TEST
 #define TEST_SCALE (1)
 
 /*----------------------------------------------*/
@@ -265,6 +266,9 @@ void speadTest_CreatDot_u16(void * pMem, uint32_t charNum, uint8_t scale, uint8_
 
     for(i = 0, charIdx = 0; i < charNum; i ++, charIdx ++)
     {
+        // if (i % 10000 == 0) {
+        //     usleep(1 * 1000);
+        // }
         if(charWidth == ASCII_WIDTH)
         {
             /* 将字符限制在可显示字符内 */
