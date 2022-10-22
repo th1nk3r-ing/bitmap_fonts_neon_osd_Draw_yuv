@@ -38,8 +38,10 @@
 /*                  È«¾Ö±äÁ¿                    */
 /*----------------------------------------------*/
 /* ×Ö¿â */
-uint8_t HzFrontDot[HZK16_FRONT_SIZE] = {0};         /* ºº×Ö×Ö¿â 16*16 */
-uint8_t AsciiFrontDot[ASCII8_FRONT_SIZE] = {0};     /* ASCII ×Ö¿â 8*16*/
+extern const uint8_t g_Ascii8Dot[];          /* ASCII ×Ö¿â 8*16*/
+extern const unsigned int ASCII8_LEN;
+extern const uint8_t g_Hzk16Dot[];           /* ºº×Ö×Ö¿â 16*16 */
+extern const unsigned int HZK16_LEN;
 
 /* µãÕó²éÕÒ±í */
 uint8_t dotTableNormal_u8[256][8];        /* Õý³£µãÕó */
@@ -108,13 +110,14 @@ void osd_Init(void)
         dotTableReverse_u16[i][0] = (i & 0x01) ? tabColorMask : 0x0000;
     }
 
+#if 0
     size_t readSize = 0;
     FILE * fp = NULL;
 
     fp =  fopen(HZK16_FRONT_PATH, "rb");
     if(fp != NULL)
     {
-        readSize = fread((void *)HzFrontDot, 1, HZK16_FRONT_SIZE, fp);
+        readSize = fread((void *)g_Hzk16Dot, 1, HZK16_FRONT_SIZE, fp);
 
         if(readSize != HZK16_FRONT_SIZE)
         {
@@ -140,7 +143,7 @@ void osd_Init(void)
     fp =  fopen(ASCII8_FRONT_PATH, "rb");
     if(fp != NULL)
     {
-        readSize = fread((void *)AsciiFrontDot, 1, ASCII8_FRONT_SIZE, fp);
+        readSize = fread((void *)g_Ascii8Dot, 1, ASCII8_FRONT_SIZE, fp);
 
         if(readSize != ASCII8_FRONT_SIZE)
         {
@@ -162,6 +165,7 @@ void osd_Init(void)
 
         exit(0);
     }
+#endif
 
     return;
 }
@@ -178,13 +182,13 @@ uint8_t * getCharFrontAddr(uint16_t charCode)
 {
     if(charCode < 0xFF)
     {
-        return (AsciiFrontDot + charCode * 16);
+        return (g_Ascii8Dot + charCode * 16);
     }
     else
     {
         uint32_t offset = (((charCode & 0xFFu) - 0xA1u) + 94u * ((charCode >> 8u) - 0xA1u) ) << 5;
 
-        return (HzFrontDot + offset);
+        return (g_Hzk16Dot + offset);
     }
 }
 

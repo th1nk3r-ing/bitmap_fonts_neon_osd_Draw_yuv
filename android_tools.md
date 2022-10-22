@@ -116,3 +116,5 @@ adb shell "cd /data/local/tmp/install/ && ./simpleperf stat --app com.think3rTes
 # 统计 neonOsdDemo 的热点函数
 adb shell "cd /data/local/tmp/install/ && ./simpleperf record ./neonOsdDemo -o perf.data && ./simpleperf report -i ./perf.data" | less
 ```
+
+- TODO : `android-ndk-profiler` 的使用?
