@@ -41,6 +41,7 @@ Target_WithPath = ./$(Target)
 Src_Files = ../osd_Draw/osd_base.c \
 			../osd_Draw/neon_osd.c \
 			../osd_Draw/cpu_osd.c \
+			../osd_Draw/frontRes.c \
 			./src/build_time.c \
 			./src/neon_intrinsics_test.c \
 			./src/osd_test.c \

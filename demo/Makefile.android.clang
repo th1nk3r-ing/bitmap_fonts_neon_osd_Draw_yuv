@@ -29,6 +29,7 @@ C_Flags += $(Include_Dir)
 Src_Files = ../osd_Draw/osd_base.c \
 			../osd_Draw/neon_osd.c \
 			../osd_Draw/cpu_osd.c \
+			../osd_Draw/frontRes.c \
 			./src/build_time.c \
 			./src/neon_intrinsics_test.c \
 			./src/osd_test.c \
@@ -54,17 +55,10 @@ $(Objs) : %.o : %.c
 .PHONY : clean test run
 
 run :
-	busybox tftp -pl $(Target) 192.168.1.11:6969 -b 65434
-	@ssh -p 8022 192.168.1.11 "cd osd; ./$(Target)"
-	busybox tftp -gl osdOut.bin 192.168.1.11:6969 -b 65434
-	busybox tftp -gl osdOut_copy.bin 192.168.1.11:6969 -b 65434
-
-test :
-	@echo -e $(prt_Yellow) "*************************************************************" $(prt_End)
-	@echo -e $(prt_Green) $(Src_Files) $(prt_End)
-	@echo -e $(prt_Green) $(Objs) $(prt_End)
-	@echo -e $(prt_Green) $(shell pwd) $(prt_End)
-	@echo -e $(prt_Yellow) "*************************************************************" $(prt_End)
+	adb push $(Target) /data/local/tmp/
+	adb shell chmod +x /data/local/tmp/$(Target)
+	adb shell "cd /data/local/tmp/ && ./${Target}"
+	adb pull /data/local/tmp/osdOut.bin .
 
 clean :
 	-rm -rf $(Target) $(Objs)
