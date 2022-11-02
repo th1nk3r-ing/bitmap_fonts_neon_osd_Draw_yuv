@@ -143,20 +143,21 @@ static uint32_t demo_neon_AsciiDot_YUV(void * pMem, uint8_t scale)
     char * pChar = NULL;
     uint32_t i = 0;
 
-    char * testOsdString = "hello world % )";
-    uint32_t stringLen = (uint32_t)strlen(testOsdString);
-    uint32_t pitch = stringLen * ASCII_WIDTH * scale;   /* 行 pitch, 单位:像素 */
+    char * testOsdString = "hello world % )*<";
+    uint32_t strLen = (uint32_t)strlen(testOsdString);
+    uint32_t pitch = strLen * ASCII_WIDTH * scale;   /* 行 pitch, 单位:像素 */
     uint8_t * charDstStartX = NULL;                    /* 当前字符的起始地址, 单位:像素 */
 
-    Cprintf_red("[%s %d]  pitch:[%d]\n", __FUNCTION__, __LINE__, pitch);
+    Cprintf_red("[%s %d]  pitch:[%d], strLen:[%d]\n", __FUNCTION__, __LINE__, pitch, strLen);
 
-    for(i = 0; i < stringLen; i ++)
+    for(i = 0; i < strLen; i ++)
     {
         pChar = testOsdString + i;
         pCharAddr = getCharFrontAddr(*pChar);
         charDstStartX = (uint8_t *)pMem + i * ASCII_WIDTH * scale;
 
-        printf("[%s %d]  [%c]\n", __FUNCTION__, __LINE__, *pChar);
+        printf("[%s %d]  %d:[%c] pCharAddr:[%p], dstStartX:[%p]\n",
+            __FUNCTION__, __LINE__, i, *pChar, pCharAddr, charDstStartX);
 
         neon_CreatAsciiDot_yuv_u8(pCharAddr, charDstStartX, pitch, scale);
     }

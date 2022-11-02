@@ -228,7 +228,7 @@ void testYUV_I420_2_NV21(void * pSrc, size_t memSize, uint32_t width, uint32_t h
  */
 void test_CreatOsdDot_u16_func(void * pMem, uint32_t memSize, uint8_t test_Scale, uint8_t charWidth)
 {
-    osdCreatDot_demo(pMem, test_Scale, charWidth, false);
+    osdCreatDot_demo(pMem, test_Scale, charWidth, true);
 
     writeBinFile(pMem, memSize);
 
@@ -300,7 +300,7 @@ void test_DrawOsd_YUV_func(void * pMem, YUV_FORMAT yuvFormat)
     void * pDot = NULL;
 
     uint32_t yuvFileSize = 0;
-    uint8_t test_Scale = 4;
+    uint8_t test_Scale = 2;
     uint32_t dotPitch = 0;
     uint8_t charWidth = 0;
     float R, G, B;
@@ -309,7 +309,7 @@ void test_DrawOsd_YUV_func(void * pMem, YUV_FORMAT yuvFormat)
     memset(&drawParam, 0x00, sizeof(drawParam));
 
     charWidth = ASCII_WIDTH;
-    charWidth = HZ_WIDTH;
+//    charWidth = HZ_WIDTH;
 
     R = 255.0;
     G = 255.0;
@@ -321,6 +321,8 @@ void test_DrawOsd_YUV_func(void * pMem, YUV_FORMAT yuvFormat)
     pDot = pMem + TEST_FRM_WIDTH * TEST_FRM_HEIGHT * 4;
 
     dotPitch = osdCreatDot_demo(pDot, test_Scale, charWidth, true);
+
+    writeBinFile(pDot, TEST_FRM_WIDTH * TEST_FRM_HEIGHT);
 
     drawParam.pDot = pDot;
     drawParam.dotWidth = dotPitch;
@@ -567,7 +569,7 @@ void test_DrawOsdDot_YUV_spead(void * pMem, YUV_FORMAT yuvFormat, uint32_t drawC
 int main(void)
 {
     uint32_t width = TEST_FRM_WIDTH, height = TEST_FRM_HEIGHT;
-    size_t memSize = width * height * 4;         /* 按照 yuv444 申请最大的内存*/
+    size_t memSize = width * height * 5;         /* 按照 yuv444 申请最大的内存*/
     void * pMem = NULL;
 
     mk_Build_Date(NULL);
@@ -593,7 +595,7 @@ int main(void)
 //    test_CreatOsdDot_u16_func(pMem, memSize / 2, 4, HZ_WIDTH);
 
     /* creat-u16-dot-spead-test(效率测试) */
-    test_CreatOsdDot_u16_Spead(pMem, memSize / 2);
+//    test_CreatOsdDot_u16_Spead(pMem, memSize / 2);
 
    /****************************** yuv dot *******************************/
 
@@ -602,7 +604,7 @@ int main(void)
   /****************************** yuv-draw *******************************/
 
     /* draw-yuv-test(功能性) */
-//    test_DrawOsd_YUV_func(pMem, YUV_420_I420);
+    test_DrawOsd_YUV_func(pMem, YUV_420_I420);
 //    test_DrawOsd_YUV_func(pMem, YUV_420_YV12);
 //    test_DrawOsd_YUV_func(pMem, YUV_420_NV12);
 //    test_DrawOsd_YUV_func(pMem, YUV_420_NV21);

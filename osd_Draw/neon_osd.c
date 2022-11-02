@@ -61,7 +61,7 @@ void neon_CreatAsciiDot_u16(uint8_t * pFont, uint16_t * pDst, uint32_t pitch, ui
 {
     if ((pFont == NULL) || (pDst == NULL))
     {
-        Cprintf_red("[%s %d]  \n", __FUNCTION__, __LINE__);
+        Cprintf_red("[%s %d]  \n", __func__, __LINE__);
         return;
     }
 
@@ -157,7 +157,7 @@ void neon_CreatAsciiDot_u16(uint8_t * pFont, uint16_t * pDst, uint32_t pitch, ui
     }
     else
     {
-        Cprintf_yellow("[%s %d]  notSupport! scale:[%d]\n", __FUNCTION__, __LINE__, scale);
+        Cprintf_yellow("[%s %d]  notSupport! scale:[%d]\n", __func__, __LINE__, scale);
     }
 
     return;
@@ -179,7 +179,7 @@ void neon_CreatChineseDot_u16(uint8_t * pFont, uint16_t * pDst, uint32_t pitch, 
 {
     if ((pFont == NULL) || (pDst == NULL))
     {
-        Cprintf_red("[%s %d]  \n", __FUNCTION__, __LINE__);
+        Cprintf_red("[%s %d]  \n", __func__, __LINE__);
         return;
     }
 
@@ -316,7 +316,7 @@ void neon_CreatChineseDot_u16(uint8_t * pFont, uint16_t * pDst, uint32_t pitch, 
     }
     else
     {
-        Cprintf_yellow("[%s %d]  notSupport! scale:[%d]\n", __FUNCTION__, __LINE__, scale);
+        Cprintf_yellow("[%s %d]  notSupport! scale:[%d]\n", __func__, __LINE__, scale);
     }
 
     return;
@@ -325,7 +325,7 @@ void neon_CreatChineseDot_u16(uint8_t * pFont, uint16_t * pDst, uint32_t pitch, 
 
 /**
  * @function:   neon_CreatAsciiDot_yuv_u8
- * @brief:      生成 YUV 叠加 ascii 所需的点阵掩码
+ * @brief:      生成 YUV 叠加 ascii 所需的点阵掩码(非绘制 YUV)
  * @param[in]:  uint8_t * pFont         字符字库地址
  * @param[in]:  uint8_t * pDst          目的点阵地址(需手动计算起始像素地址)
  * @param[in]:  uint32_t  pitch         行 pitch (单位像素, 1B)
@@ -337,7 +337,7 @@ void neon_CreatAsciiDot_yuv_u8(uint8_t * pFont, uint8_t * pDst, uint32_t pitch, 
 {
     if ((pFont == NULL) || (pDst == NULL))
     {
-        Cprintf_red("[%s %d]  \n", __FUNCTION__, __LINE__);
+        Cprintf_red("[%s %d]  pFont:[%p], pDst:[%p]\n", __func__, __LINE__, pFont, pDst);
         return;
     }
 
@@ -388,7 +388,7 @@ void neon_CreatAsciiDot_yuv_u8(uint8_t * pFont, uint8_t * pDst, uint32_t pitch, 
     }
     else
     {
-        Cprintf_yellow("[%s %d]  notSupport! scale:[%d]\n", __FUNCTION__, __LINE__, scale);
+        Cprintf_yellow("[%s %d]  notSupport! scale:[%d]\n", __func__, __LINE__, scale);
     }
 
     return;
@@ -397,7 +397,7 @@ void neon_CreatAsciiDot_yuv_u8(uint8_t * pFont, uint8_t * pDst, uint32_t pitch, 
 
 /**
  * @function:   neon_CreatChineseDot_yuv_u8
- * @brief:      生成 YUV 叠加 汉字 所需的点阵掩码, 只支持 x2, x4;
+ * @brief:      生成 YUV 叠加 汉字 所需的点阵掩码, 只支持 x2, x4; (非绘制 YUV)
  * @param[in]:  uint8_t * pFont         字符字库地址
  * @param[in]:  uint8_t * pDst          目的点阵地址(需手动计算起始像素地址)
  * @param[in]:  uint32_t  pitch         行 pitch (单位像素, 1B)
@@ -409,7 +409,7 @@ void neon_CreatChineseDot_yuv_u8(uint8_t * pFont, uint8_t * pDst, uint32_t pitch
 {
     if ((pFont == NULL) || (pDst == NULL))
     {
-        Cprintf_red("[%s %d]  \n", __FUNCTION__, __LINE__);
+        Cprintf_red("[%s %d]  \n", __func__, __LINE__);
         return;
     }
 
@@ -482,7 +482,7 @@ void neon_CreatChineseDot_yuv_u8(uint8_t * pFont, uint8_t * pDst, uint32_t pitch
     }
     else
     {
-        Cprintf_yellow("[%s %d]  notSupport! scale:[%d]\n", __FUNCTION__, __LINE__, scale);
+        Cprintf_yellow("[%s %d]  notSupport! scale:[%d]\n", __func__, __LINE__, scale);
     }
 
 #if 0    //使用 dotTableNormal_u16, 但效率更低
@@ -548,7 +548,7 @@ void neon_CreatChineseDot_yuv_u8(uint8_t * pFont, uint8_t * pDst, uint32_t pitch
     }
     else
     {
-        Cprintf_yellow("[%s %d]  notSupport! scale:[%d]\n", __FUNCTION__, __LINE__, scale);
+        Cprintf_yellow("[%s %d]  notSupport! scale:[%d]\n", __func__, __LINE__, scale);
     }
 #endif   /* end of (#if 0  //使用 dotTableNormal_u16, 但效率更低) */
 
@@ -607,6 +607,15 @@ static void inline _neon_DrawDot_Y(uint32_t startIdx,
             m_pDot += 32;
         }
 
+        if (x16_Cnt % 2) {
+            dot_8x16_1 = vld1q_u8(m_pDot);
+            dst_8x16_1 = vld1q_u8(m_pDst);          /* dst 加载 */
+            dst_8x16_1 = vbslq_u8(dot_8x16_1, y_8x16_1, dst_8x16_1);    /* 位选择 */
+            vst1q_u8(m_pDst, dst_8x16_1);           /* 存储 */
+            m_pDot += 16;
+            m_pDst += 16;
+        }
+
         m_pDst = pParam->pFrmVirAddr[0] + startIdx + lineIdx * pParam->frmStride;
         m_pDot = pParam->pDot + lineIdx * pParam->dotPitch;
     }
@@ -627,7 +636,7 @@ void neon_DrawDot_YUV_Gray(YUV_DRAW_PARAM * pParam)
     if((pParam == NULL) || (pParam->dotWidth % 16))
     {
         Cprintf_red("[%s %d]  pParam:[%p], pitch:[%d]\n",
-                    __FUNCTION__, __LINE__, pParam, pParam->dotWidth);
+                    __func__, __LINE__, pParam, pParam->dotWidth);
         return;
     }
 
@@ -670,9 +679,11 @@ void neon_DrawDot_I420_YV12(YUV_DRAW_PARAM * pParam)
     if((pParam == NULL) || (pParam->dotWidth % 16))
     {
         Cprintf_red("[%s %d]  pParam:[%p], pitch:[%d]\n",
-                    __FUNCTION__, __LINE__, pParam, pParam->dotWidth);
+                    __func__, __LINE__, pParam, pParam->dotWidth);
         return;
     }
+
+    printf("[%s %d]  \n", __func__, __LINE__);
 
     uint32_t startIdx = 0;
     uint8_t * m_pDst = NULL;
@@ -687,13 +698,14 @@ void neon_DrawDot_I420_YV12(YUV_DRAW_PARAM * pParam)
     m_pDot = pParam->pDot;
     x16_Cnt = pParam->dotWidth / 16; /* Y 操作一次赋值 16 个像素 */
 
+    printf("[%s %d]  x16_Cnt:[%d]\n", __func__, __LINE__, x16_Cnt);
+
     _neon_DrawDot_Y(startIdx,
                     m_pDst, m_pDot,
                     x16_Cnt, lineIdx, j,
                     dst_8x16_1, y_8x16_1, dot_8x16_1,
                     dst_8x16_2, y_8x16_2, dot_8x16_2,
                     pParam);
-
 
     /* U 赋值 */
     uint8x16x2_t dot_8x16x2;
@@ -720,6 +732,16 @@ void neon_DrawDot_I420_YV12(YUV_DRAW_PARAM * pParam)
             m_pDst += 16;
             m_pDot += 32;
         }
+
+        // TODO : 优化此处代码
+        if (x16_Cnt % 2) {
+            uint8x8x2_t dot_8x8x2 = vld2_u8(m_pDot);
+            uint8x8_t dst_8x8_1 = vld1_u8(m_pDst);
+            dst_8x8_1 = vbsl_s8(dot_8x8x2.val[0], vget_high_u8(y_8x16_1), dst_8x8_1);
+            vst1_s8(m_pDst, dst_8x8_1);
+            m_pDst += 8;
+            m_pDot += 16;
+        }
     }
 
     /* V 赋值 */
@@ -743,6 +765,15 @@ void neon_DrawDot_I420_YV12(YUV_DRAW_PARAM * pParam)
             m_pDst += 16;
             m_pDot += 32;
         }
+
+        if (x16_Cnt % 2) {
+            uint8x8x2_t dot_8x8x2 = vld2_u8(m_pDot);
+            uint8x8_t dst_8x8_1 = vld1_u8(m_pDst);
+            dst_8x8_1 = vbsl_s8(dot_8x8x2.val[0], vget_high_u8(y_8x16_1), dst_8x8_1);
+            vst1_s8(m_pDst, dst_8x8_1);
+            m_pDst += 8;
+            m_pDot += 16;
+        }
     }
 
     return;
@@ -760,7 +791,7 @@ void neon_DrawDot_NV12_NV21(YUV_DRAW_PARAM * pParam)
     if((pParam == NULL) || (pParam->dotWidth % 16))
     {
         Cprintf_red("[%s %d]  pParam:[%p], pitch:[%d]\n",
-                    __FUNCTION__, __LINE__, pParam, pParam->dotWidth);
+                    __func__, __LINE__, pParam, pParam->dotWidth);
         return;
     }
 
@@ -821,6 +852,15 @@ void neon_DrawDot_NV12_NV21(YUV_DRAW_PARAM * pParam)
             m_pDst += 32;
             m_pDot += 32;
         }
+        
+       if (x16_Cnt % 2) {
+           dot_8x16_1 = vld1q_u8(m_pDot);
+           dst_8x16_1 = vld1q_u8(m_pDst);          /* dst 加载 */           
+           dst_8x16_1 = vbslq_u8(dot_8x16_1, y_8x16_1, dst_8x16_1);    /* 位选择 */           
+           vst1q_u8(m_pDst, dst_8x16_1);           /* 存储 */
+           m_pDst += 16;
+           m_pDot += 16;
+       }
     }
 }
 
@@ -836,7 +876,7 @@ void neon_DrawDot_YUYV_UYVY(YUV_DRAW_PARAM * pParam)
     if((pParam == NULL) || (pParam->dotWidth % 16))
     {
         Cprintf_red("[%s %d]  pParam:[%p], pitch:[%d]\n",
-                    __FUNCTION__, __LINE__, pParam, pParam->dotWidth);
+                    __func__, __LINE__, pParam, pParam->dotWidth);
         return;
     }
 
@@ -858,9 +898,9 @@ void neon_DrawDot_YUYV_UYVY(YUV_DRAW_PARAM * pParam)
     /* 生成 src 颜色矩阵 */
     uint32x4_t uv_32x4;
     uint32_t uv_Value = (pParam->yuvFrmFomat == YUV_422_YUYV)
-                          ? ( (uint32_t)(pParam->V << 24u) + (uint32_t)(pParam->Y << 16u) 
+                          ? ( (uint32_t)(pParam->V << 24u) + (uint32_t)(pParam->Y << 16u)
                                 + (uint32_t)(pParam->U << 8u) + (uint32_t)pParam->Y)
-                          : ( (uint32_t)(pParam->Y << 24u) + (uint32_t)(pParam->V << 16u) 
+                          : ( (uint32_t)(pParam->Y << 24u) + (uint32_t)(pParam->V << 16u)
                                 + (uint32_t)(pParam->Y << 8u) + (uint32_t)pParam->U);
 
     uv_32x4 = vdupq_n_u32(uv_Value);
