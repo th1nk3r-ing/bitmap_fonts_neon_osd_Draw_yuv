@@ -202,7 +202,7 @@ void testYUV_I420_2_NV21(void * pSrc, size_t memSize, uint32_t width, uint32_t h
     /* I420 -> NV12
       {[YYYYYYYY] [UU] [VV]} -> {[YYYYYYYY] [VUVU]} */
 
-    readSrcYuvFile(pSrc, SRC_I420_YUV_FILE_NAME, memSize);
+    readSrcYuvFile(pSrc, SRC_I420_YUV_FILE_NAME,(uint32_t)memSize);
 
     move_Y_test(1000, width, height, pSrc, pSrc + memSize);
 
@@ -211,7 +211,7 @@ void testYUV_I420_2_NV21(void * pSrc, size_t memSize, uint32_t width, uint32_t h
                      ((uint8_t *)pSrc) + width * height  + width * height / 4,
                      ((uint8_t *)pSrc + memSize) + width * height);
 
-    writeDstYuvFile(pSrc + memSize, "I420-2-NV21_out.yuv", memSize);
+    writeDstYuvFile(pSrc + memSize, "I420-2-NV21_out.yuv", (uint32_t)memSize);
 
     return;
 }

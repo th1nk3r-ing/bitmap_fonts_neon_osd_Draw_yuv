@@ -182,13 +182,13 @@ uint8_t * getCharFrontAddr(uint16_t charCode)
 {
     if(charCode < 0xFF)
     {
-        return (g_Ascii8Dot + charCode * 16);
+        return (uint8_t *)(g_Ascii8Dot + charCode * 16);
     }
     else
     {
         uint32_t offset = (((charCode & 0xFFu) - 0xA1u) + 94u * ((charCode >> 8u) - 0xA1u) ) << 5;
 
-        return (g_Hzk16Dot + offset);
+        return (uint8_t *)(g_Hzk16Dot + offset);
     }
 }
 

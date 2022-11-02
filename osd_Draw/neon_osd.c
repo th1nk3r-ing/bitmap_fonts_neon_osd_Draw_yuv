@@ -698,8 +698,6 @@ void neon_DrawDot_I420_YV12(YUV_DRAW_PARAM * pParam)
     m_pDot = pParam->pDot;
     x16_Cnt = pParam->dotWidth / 16; /* Y 操作一次赋值 16 个像素 */
 
-    printf("[%s %d]  x16_Cnt:[%d]\n", __func__, __LINE__, x16_Cnt);
-
     _neon_DrawDot_Y(startIdx,
                     m_pDst, m_pDot,
                     x16_Cnt, lineIdx, j,
@@ -738,7 +736,7 @@ void neon_DrawDot_I420_YV12(YUV_DRAW_PARAM * pParam)
             uint8x8x2_t dot_8x8x2 = vld2_u8(m_pDot);
             uint8x8_t dst_8x8_1 = vld1_u8(m_pDst);
             dst_8x8_1 = vbsl_s8(dot_8x8x2.val[0], vget_high_u8(y_8x16_1), dst_8x8_1);
-            vst1_s8(m_pDst, dst_8x8_1);
+            vst1_u8(m_pDst, dst_8x8_1);
             m_pDst += 8;
             m_pDot += 16;
         }
@@ -770,7 +768,7 @@ void neon_DrawDot_I420_YV12(YUV_DRAW_PARAM * pParam)
             uint8x8x2_t dot_8x8x2 = vld2_u8(m_pDot);
             uint8x8_t dst_8x8_1 = vld1_u8(m_pDst);
             dst_8x8_1 = vbsl_s8(dot_8x8x2.val[0], vget_high_u8(y_8x16_1), dst_8x8_1);
-            vst1_s8(m_pDst, dst_8x8_1);
+            vst1_u8(m_pDst, dst_8x8_1);
             m_pDst += 8;
             m_pDot += 16;
         }
@@ -819,10 +817,10 @@ void neon_DrawDot_NV12_NV21(YUV_DRAW_PARAM * pParam)
     /* uv 起始偏移地址 */
     startIdx = pParam->osdStartY * pParam->frmStride / 2 + pParam->osdStartX;
 
-    uint16x8_t uv_16x8 ;
+    uint16x8_t uv_16x8;
     uint16_t uv_Value = (pParam->yuvFrmFomat == YUV_420_NV12)
-                          ? (((uint16_t)pParam->V << 8u) + pParam->U)
-                          : (((uint16_t)pParam->U << 8u) + pParam->V);
+                          ? ((uint16_t)pParam->V * 256 + pParam->U)
+                          : ((uint16_t)pParam->U * 256 + pParam->V);
 
     uv_16x8 = vdupq_n_u16(uv_Value);
     y_8x16_1 = vreinterpretq_u8_u16(uv_16x8);
