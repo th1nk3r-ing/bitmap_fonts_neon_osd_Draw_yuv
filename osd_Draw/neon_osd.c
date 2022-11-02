@@ -735,7 +735,7 @@ void neon_DrawDot_I420_YV12(YUV_DRAW_PARAM * pParam)
         if (x16_Cnt % 2) {
             uint8x8x2_t dot_8x8x2 = vld2_u8(m_pDot);
             uint8x8_t dst_8x8_1 = vld1_u8(m_pDst);
-            dst_8x8_1 = vbsl_s8(dot_8x8x2.val[0], vget_high_u8(y_8x16_1), dst_8x8_1);
+            dst_8x8_1 = vbsl_u8(dot_8x8x2.val[0], vget_high_u8(y_8x16_1), dst_8x8_1);
             vst1_u8(m_pDst, dst_8x8_1);
             m_pDst += 8;
             m_pDot += 16;
@@ -767,7 +767,7 @@ void neon_DrawDot_I420_YV12(YUV_DRAW_PARAM * pParam)
         if (x16_Cnt % 2) {
             uint8x8x2_t dot_8x8x2 = vld2_u8(m_pDot);
             uint8x8_t dst_8x8_1 = vld1_u8(m_pDst);
-            dst_8x8_1 = vbsl_s8(dot_8x8x2.val[0], vget_high_u8(y_8x16_1), dst_8x8_1);
+            dst_8x8_1 = vbsl_u8(dot_8x8x2.val[0], vget_high_u8(y_8x16_1), dst_8x8_1);
             vst1_u8(m_pDst, dst_8x8_1);
             m_pDst += 8;
             m_pDot += 16;
