@@ -87,11 +87,11 @@ void readSrcYuvFile(void * pMem, char * pFileName, uint32_t fileSize)
         if(readSize != fileSize)
         {
             Cprintf_red("[%s %d]  read [%s] error! readSize:[%d], fileSize:[%d]\n",
-                __FUNCTION__, __LINE__, pFileName, (int)readSize, fileSize);
+                __func__, __LINE__, pFileName, (int)readSize, fileSize);
         }
         else
         {
-            Cprintf_yellow("[%s %d]  read [%s] OK!\n", __FUNCTION__, __LINE__, pFileName);
+            Cprintf_yellow("[%s %d]  read [%s] OK!\n", __func__, __LINE__, pFileName);
         }
 
         fclose(fp);
@@ -99,7 +99,7 @@ void readSrcYuvFile(void * pMem, char * pFileName, uint32_t fileSize)
     else
     {
         Cprintf_red("[%s %d] ERROR! open file:[%s] failed!\n\n",
-            __FUNCTION__,__LINE__, pFileName);
+            __func__,__LINE__, pFileName);
     }
 
     return;
@@ -124,11 +124,11 @@ void writeDstYuvFile(void * pMem, char * pFileName, uint32_t fileSize)
         if(readSize != fileSize)
         {
             Cprintf_red("[%s %d]  write [%s] error! readSize:[%d], fileSize:[%d]\n",
-                __FUNCTION__, __LINE__, pFileName, (int)readSize, fileSize);
+                __func__, __LINE__, pFileName, (int)readSize, fileSize);
         }
         else
         {
-            Cprintf_yellow("[%s %d]  write [%s] OK!\n", __FUNCTION__, __LINE__, pFileName);
+            Cprintf_yellow("[%s %d]  write [%s] OK!\n", __func__, __LINE__, pFileName);
         }
 
         fflush(fp);
@@ -138,7 +138,7 @@ void writeDstYuvFile(void * pMem, char * pFileName, uint32_t fileSize)
     else
     {
         Cprintf_red("[%s %d] ERROR! open file:[%s] failed!\n\n",
-            __FUNCTION__,__LINE__, pFileName);
+            __func__,__LINE__, pFileName);
     }
 
     return;    
@@ -158,7 +158,7 @@ void writeBinFile(void * pMem, size_t memSize)
     if((pMem == NULL) || (memSize == 0))
     {
         Cprintf_green("[%s %d]  error!!!!! pMem:[%p], memSize:[%lu]\n",
-            __FUNCTION__, __LINE__, pMem, memSize);
+            __func__, __LINE__, pMem, memSize);
         return;
     }
 
@@ -176,7 +176,7 @@ void writeBinFile(void * pMem, size_t memSize)
         fwrite(pMem, 1, memSize, fp);
         fflush(fp);
         Cprintf_green("[%s %d]  write bin file:[%s] Success!\n",
-            __FUNCTION__, __LINE__, fileName);
+            __func__, __LINE__, fileName);
 
         fclose(fp);
     }while(0);
@@ -189,7 +189,7 @@ void writeBinFile(void * pMem, size_t memSize)
         fwrite(pMem, 1, memSize, fp);
         fflush(fp);
         Cprintf_green("[%s %d]  write bin file:[%s] Success!\n",
-            __FUNCTION__, __LINE__, fileName);
+            __func__, __LINE__, fileName);
 
         fclose(fp);
     }while(0);
@@ -276,7 +276,7 @@ void test_CreatOsdDot_YUV_func_spead(void * pMem, uint32_t memSize)
 
     if((test_Scale != 2) && (test_Scale != 4))
     {
-        Cprintf_red("[%s %d]  err! no-support-scale:[%d]\n", __FUNCTION__, __LINE__, test_Scale);
+        Cprintf_red("[%s %d]  err! no-support-scale:[%d]\n", __func__, __LINE__, test_Scale);
         return;
     }
 

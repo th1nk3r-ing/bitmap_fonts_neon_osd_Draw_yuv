@@ -122,11 +122,11 @@ void osd_Init(void)
         if(readSize != HZK16_FRONT_SIZE)
         {
             Cprintf_red("[%s %d]  read [%s] error! readSize:[%d], fileSize:[%d]\n",
-                __FUNCTION__, __LINE__, HZK16_FRONT_PATH, (int)readSize, HZK16_FRONT_SIZE);
+                __func__, __LINE__, HZK16_FRONT_PATH, (int)readSize, HZK16_FRONT_SIZE);
         }
         else
         {
-            Cprintf_yellow("[%s %d]  read [%s] OK!\n", __FUNCTION__, __LINE__, HZK16_FRONT_PATH);
+            Cprintf_yellow("[%s %d]  read [%s] OK!\n", __func__, __LINE__, HZK16_FRONT_PATH);
         }
 
         fclose(fp);
@@ -135,7 +135,7 @@ void osd_Init(void)
     else
     {
         Cprintf_red("[%s %d] error! file[%s] open failed\n",
-            __FUNCTION__,__LINE__, HZK16_FRONT_PATH);
+            __func__,__LINE__, HZK16_FRONT_PATH);
 
         exit(0);
     }
@@ -148,11 +148,11 @@ void osd_Init(void)
         if(readSize != ASCII8_FRONT_SIZE)
         {
             Cprintf_red("[%s %d]  read [%s] error! readSize:[%d], fileSize:[%d]\n",
-                __FUNCTION__, __LINE__, ASCII8_FRONT_PATH, (int)readSize, ASCII8_FRONT_SIZE);
+                __func__, __LINE__, ASCII8_FRONT_PATH, (int)readSize, ASCII8_FRONT_SIZE);
         }
         else
         {
-            Cprintf_yellow("[%s %d]  read [%s] OK!\n", __FUNCTION__, __LINE__, ASCII8_FRONT_PATH);
+            Cprintf_yellow("[%s %d]  read [%s] OK!\n", __func__, __LINE__, ASCII8_FRONT_PATH);
         }
 
         fclose(fp);
@@ -161,7 +161,7 @@ void osd_Init(void)
     else
     {
         Cprintf_red("[%s %d] error! file[%s] open failed\n",
-            __FUNCTION__,__LINE__, ASCII8_FRONT_PATH);
+            __func__,__LINE__, ASCII8_FRONT_PATH);
 
         exit(0);
     }

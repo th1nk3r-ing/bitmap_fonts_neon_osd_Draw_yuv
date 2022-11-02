@@ -194,7 +194,7 @@ unsigned char Calc_Week_Day( DATE_TIME *pDate)
     week_number = s % 7;
 
     DEBUG("[%s L:%d] %d-%d-%d is [%s %d].\n",
-            __FUNCTION__, __LINE__, year, month, day, long_char_week[week_number], week_number);
+            __func__, __LINE__, year, month, day, long_char_week[week_number], week_number);
 
     return week_number;
 }

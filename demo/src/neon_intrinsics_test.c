@@ -98,7 +98,7 @@ static void prt_Mem_u16(uint16_t * pMem, uint32_t size, char * debugInfo)
     if((pMem == NULL) || (debugInfo == NULL) || (size == 0))
     {
         Cprintf_green("[%s %d] ERR!!!!! pMem:[%p], debugInfo:[%p], size:[%d]\n",
-            __FUNCTION__, __LINE__, pMem, debugInfo, size);
+            __func__, __LINE__, pMem, debugInfo, size);
         return;
     }
 
@@ -141,7 +141,7 @@ static void prt_Mem_u8(uint8_t * pMem, uint32_t size, char * debugInfo)
     if((pMem == NULL) || (debugInfo == NULL) || (size == 0))
     {
         Cprintf_green("[%s %d] ERR!!!!! pMem:[%p], debugInfo:[%p], size:[%d]\n",
-            __FUNCTION__, __LINE__, pMem, debugInfo, size);
+            __func__, __LINE__, pMem, debugInfo, size);
         return;
     }
 
@@ -678,7 +678,7 @@ void move_Y_test(uint32_t cnt, uint32_t width, uint32_t height, uint8_t * pSrcLu
     if(cnt > 1)
     {
         Cprintf_green("[%s %d]  cnt:[%d], using:[%d ms]\n",
-            __FUNCTION__, __LINE__, cnt, endTime - startTime);
+            __func__, __LINE__, cnt, endTime - startTime);
     }
 
     return;
@@ -837,7 +837,7 @@ void converI420ToNv21(uint32_t cnt, uint32_t width, uint32_t height,
     endTime = getTime_ms();
 
     Cprintf_green("[%s %d]  cnt:[%d], using:[%d ms]\n",
-        __FUNCTION__, __LINE__, cnt, endTime - startTime);
+        __func__, __LINE__, cnt, endTime - startTime);
 }
 
 

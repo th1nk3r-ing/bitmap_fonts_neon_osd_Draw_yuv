@@ -91,7 +91,7 @@ static uint32_t demo_neon_AsciiDot_u16(void * pMem, uint8_t scale)
     uint32_t pitch = ASCII_WIDTH * stringLen * scale;   /* 行 pitch, 单位:像素 */
     uint16_t * charDstStartX = NULL;                    /* 当前字符的起始地址, 单位:像素 */
 
-    Cprintf_red("[%s %d]  pitch:[%d]\n", __FUNCTION__, __LINE__, pitch * 2);
+    Cprintf_red("[%s %d]  pitch:[%d]\n", __func__, __LINE__, pitch * 2);
 
     for(i = 0; i < stringLen; i ++)
     {
@@ -99,7 +99,7 @@ static uint32_t demo_neon_AsciiDot_u16(void * pMem, uint8_t scale)
         pCharAddr = getCharFrontAddr(*pChar);
         charDstStartX = (uint16_t *)pMem + i * ASCII_WIDTH * scale;
 
-        printf("[%s %d]  [%c]\n", __FUNCTION__, __LINE__, *pChar);
+        printf("[%s %d]  [%c]\n", __func__, __LINE__, *pChar);
 
         neon_CreatAsciiDot_u16(pCharAddr, charDstStartX, pitch, scale, COLOR_ARGB1555);
     }
@@ -120,7 +120,7 @@ static uint32_t demo_neon_ChineseDot_u16(void * pMem, uint8_t scale)
     uint32_t pitchHz = HZ_WIDTH * stringLenHz * scale;   /* 行 pitchHz, 单位:像素 */
     uint16_t * charDstStartX_Hz = NULL;            /* 当前字符的起始地址, 单位:像素 */
 
-    Cprintf_red("[%s %d]  pitchHz:[%d], stringLenHz:[%d]\n", __FUNCTION__, __LINE__, pitchHz * 2, stringLenHz);
+    Cprintf_red("[%s %d]  pitchHz:[%d], stringLenHz:[%d]\n", __func__, __LINE__, pitchHz * 2, stringLenHz);
 
     for(i = 0; i < stringLenHz; i ++)
     {
@@ -129,7 +129,7 @@ static uint32_t demo_neon_ChineseDot_u16(void * pMem, uint8_t scale)
         pCharAddr = getCharFrontAddr(HzValue);
         charDstStartX_Hz = (uint16_t *)pMem + i * HZ_WIDTH * scale;
 
-        printf("[%s %d]  [%s], [%#04x]\n", __FUNCTION__, __LINE__, (char *)pChar, HzValue);
+        printf("[%s %d]  [%s], [%#04x]\n", __func__, __LINE__, (char *)pChar, HzValue);
 
         neon_CreatChineseDot_u16(pCharAddr, charDstStartX_Hz, pitchHz, scale, COLOR_ARGB1555);
     }
@@ -148,7 +148,7 @@ static uint32_t demo_neon_AsciiDot_YUV(void * pMem, uint8_t scale)
     uint32_t pitch = strLen * ASCII_WIDTH * scale;   /* 行 pitch, 单位:像素 */
     uint8_t * charDstStartX = NULL;                    /* 当前字符的起始地址, 单位:像素 */
 
-    Cprintf_red("[%s %d]  pitch:[%d], strLen:[%d]\n", __FUNCTION__, __LINE__, pitch, strLen);
+    Cprintf_red("[%s %d]  pitch:[%d], strLen:[%d]\n", __func__, __LINE__, pitch, strLen);
 
     for(i = 0; i < strLen; i ++)
     {
@@ -157,7 +157,7 @@ static uint32_t demo_neon_AsciiDot_YUV(void * pMem, uint8_t scale)
         charDstStartX = (uint8_t *)pMem + i * ASCII_WIDTH * scale;
 
         printf("[%s %d]  %d:[%c] pCharAddr:[%p], dstStartX:[%p]\n",
-            __FUNCTION__, __LINE__, i, *pChar, pCharAddr, charDstStartX);
+            __func__, __LINE__, i, *pChar, pCharAddr, charDstStartX);
 
         neon_CreatAsciiDot_yuv_u8(pCharAddr, charDstStartX, pitch, scale);
     }
@@ -178,7 +178,7 @@ static uint32_t demo_neon_ChineseDot_YUV(void * pMem, uint8_t scale)
     uint32_t pitchHz = HZ_WIDTH * stringLenHz * scale;   /* 行 pitchHz, 单位:像素 */
     uint8_t * charDstStartX_Hz = NULL;            /* 当前字符的起始地址, 单位:像素 */
 
-    Cprintf_red("[%s %d]  pitchHz:[%d], stringLenHz:[%d]\n", __FUNCTION__, __LINE__, pitchHz, stringLenHz);
+    Cprintf_red("[%s %d]  pitchHz:[%d], stringLenHz:[%d]\n", __func__, __LINE__, pitchHz, stringLenHz);
 
     for(i = 0; i < stringLenHz; i ++)
     {
@@ -188,7 +188,7 @@ static uint32_t demo_neon_ChineseDot_YUV(void * pMem, uint8_t scale)
         charDstStartX_Hz = (uint8_t *)pMem + i * HZ_WIDTH * scale;
 
         printf("[%s %d]  [%s], [%#04x], start:[%d]\n",
-            __FUNCTION__, __LINE__, (char *)pChar, HzValue, i * HZ_WIDTH * scale);
+            __func__, __LINE__, (char *)pChar, HzValue, i * HZ_WIDTH * scale);
 
         neon_CreatChineseDot_yuv_u8(pCharAddr, charDstStartX_Hz, pitchHz, scale);
     }
@@ -258,11 +258,11 @@ void speadTest_CreatDot_u16(void * pMem, uint32_t charNum, uint8_t scale, uint8_
     pitch = calcBeyondCompare_Pitch(charNum, scale, charWidth);
 
 #ifdef NEW_CPU_TEST
-    Cprintf_green("[%s %d]  ************ NEW_CPU_TEST *************\n", __FUNCTION__, __LINE__);
+    Cprintf_green("[%s %d]  ************ NEW_CPU_TEST *************\n", __func__, __LINE__);
 #endif
 
 #ifdef NEON_TEST
-    Cprintf_green("[%s %d]  ************** NEON_TEST ***************\n", __FUNCTION__, __LINE__);
+    Cprintf_green("[%s %d]  ************** NEON_TEST ***************\n", __func__, __LINE__);
 #endif
 
     for(i = 0, charIdx = 0; i < charNum; i ++, charIdx ++)
@@ -312,7 +312,7 @@ void speadTest_CreatDot_u16(void * pMem, uint32_t charNum, uint8_t scale, uint8_
 
     endTime = getTime_ms();
 
-    Cprintf_red("[%s %d]  pitch:[%u]\n", __FUNCTION__, __LINE__, pitch * 2);
+    Cprintf_red("[%s %d]  pitch:[%u]\n", __func__, __LINE__, pitch * 2);
 
     Cprintf_yellow(" finish! charCnt:[%d], scale:[%d x %d], using:[%d ms], each:[%1.3f us]\n",
         charNum, scale * charWidth, scale * FRONT_HEIGHT,
@@ -378,7 +378,7 @@ uint32_t speadTest_CreatYuvDot(void * pMem, uint32_t charNum, uint8_t scale, uin
 
     endTime = getTime_ms();
 
-    Cprintf_red("[%s %d]  pitch:[%u]\n", __FUNCTION__, __LINE__, pitch);
+    Cprintf_red("[%s %d]  pitch:[%u]\n", __func__, __LINE__, pitch);
 
     Cprintf_yellow(" finish! charCnt:[%d], scale:[%d x %d], using:[%d ms], each:[%1.3f us]\n",
         charNum, scale * charWidth, scale * FRONT_HEIGHT,

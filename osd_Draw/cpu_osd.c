@@ -59,7 +59,7 @@ void cpu_DrawAscii( uint8_t *   pFont,
 {
      if ((pFont == NULL) || (pDst == NULL))
     {
-        Cprintf_red("[%s %d]  \n", __FUNCTION__, __LINE__);
+        Cprintf_red("[%s %d]  \n", __func__, __LINE__);
         return;
     }
 
@@ -183,7 +183,7 @@ void cpu_DrawChinese(      uint8_t *   pFont,
 {
     if ((pFont == NULL) || (pDst == NULL))
     {
-        Cprintf_red("[%s %d]  \n", __FUNCTION__, __LINE__);
+        Cprintf_red("[%s %d]  \n", __func__, __LINE__);
         return;
     }
 
