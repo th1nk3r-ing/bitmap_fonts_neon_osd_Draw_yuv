@@ -33,7 +33,7 @@
     2. 在 YUV 格式上直接绘制 OSD;
         - 支持 YUV420 中的 `I420, YV12, NV12, NV21`;
         - 支持 YUV422 中的 `YUYV, UYVY` ;
-- 支持字符类型: 
+- 支持字符类型:
     1. **汉字** (HZK16), 基础大小 `16*16`;
     2. **ASCII**, 基础大小 `8*16`;
 
@@ -108,7 +108,7 @@
 - yuv 字符叠加效果图:
 
     ![yuv叠加效果](./yuv_osd.png)
-  
+
 ## <font color=#009A000> 0x03 测试数据如下 </font>
 
 ### <font color=#FF4500> u16 点阵扩充 </font>
@@ -151,3 +151,8 @@
 > 7. [UTF-8 编解码算法赏析](https://zhuanlan.zhihu.com/p/72254734)
 >
 > 在 X Window System下的点阵字体规格是BDF/PCF，这两种其实是一样的，只不过PCF是经过编码压缩，是二位文件，档案可能会比较小，加载的时候效率也会比较好。BDF的话是纯文字文件，可以使用一般的文字编辑器就可以编修
+
+### <font color=#FF4500> **NOTE: 👆上述  2.0 项目不做了!!! 原因如下 :** </font>
+
+1. 已在学习 OpenGL 过程中实现了上述 `gnu unifont` 贴图的设想. (采用 Texture Atlas + Instancing )
+2. 如有兴趣实现上述代码的同学请在 issue 区联系我哈, 可开放仓库权限.
