@@ -1,0 +1,112 @@
+name: Android CI
+
+on:
+  workflow_dispatch:  # 这将使工作流支持手动触发
+    inputs:
+      release_enabled:
+        description: 'Whether to create a release'
+        required: false
+        default: 'false'
+  # push:
+  #   tags:
+  #     - "v*"
+
+permissions:
+  contents: write  # 允许写入发布数据
+  id-token: write  # 如果你需要请求 GitHub Actions 的 ID token
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    env:
+      RELEASE_ENABLED: ${{ github.event.inputs.release_enabled || 'false' }}  # 默认值为 true
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        # with:
+        #   path: ${{ github.head_name }}-${{ github.sha }}
+
+      - name: Set up Android NDK
+        run: |
+          # 设置 NDK 版本
+          ANDROID_NDK_HOME_VERSION=r25c
+
+          # 下载指定版本的 NDK
+          wget https://dl.google.com/android/repository/android-ndk-${ANDROID_NDK_HOME_VERSION}-linux.zip
+
+          # 解压并安装 NDK
+          unzip android-ndk-${ANDROID_NDK_HOME_VERSION}-linux.zip -d $HOME/ndk
+
+          # 设置环境变量
+          echo "ANDROID_NDK_HOME=$HOME/ndk/android-ndk-${ANDROID_NDK_HOME_VERSION}" >> $GITHUB_ENV
+          echo "PATH=$ANDROID_NDK_HOME:$PATH" >> $GITHUB_ENV
+
+      - name: env-set
+        run: |
+          echo "NDK version:"
+          # ls -al $ANDROID_NDK_HOME
+          $ANDROID_NDK_HOME/ndk-build --version
+
+          # 获取当前的标签名
+          if [[ $GITHUB_REF == refs/tags/* ]]; then
+            TAG_NAME=${GITHUB_REF#refs/tags/}
+            echo "TAG_NAME=$TAG_NAME" >> $GITHUB_ENV
+          elif [[ $GITHUB_REF == refs/heads/* ]]; then
+            BRANCH_NAME=${GITHUB_REF#refs/heads/}
+            echo "TAG_NAME=$BRANCH_NAME" >> $GITHUB_ENV
+          else
+            echo "TAG_NAME=Unknown" >> $GITHUB_ENV
+          fi
+          # 获取提交的短 hash（前 7 位）
+          COMMIT_HASH=${GITHUB_SHA:0:7}
+          echo "COMMIT_HASH=$COMMIT_HASH" >> $GITHUB_ENV
+
+      - name: build
+        run: |
+          cd ${GITHUB_WORKSPACE}
+          mkdir build && cd build
+          cmake ../ -DANDROID_NDK=${ANDROID_NDK_HOME}
+          make
+          make install
+          cd ${GITHUB_WORKSPACE}
+          tree ./install
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: osd-neon
+          path: install/
+
+      - name: Create Release
+        id: create_release
+        if: env.RELEASE_ENABLED == 'true'  # 控制是否创建发布
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ env.TAG_NAME }}-${{ env.COMMIT_HASH }}
+          release_name: 'Release ${{ env.TAG_NAME }}-${{ env.COMMIT_HASH }}'  # 动态生成发布名称
+          body: 'Release notes here'
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Zip the folder
+        if: env.RELEASE_ENABLED == 'true'
+        run: |
+          cd ${GITHUB_WORKSPACE}/install
+          zip -r ${{ github.workspace }}/osd-neon.zip ./*
+          ls -alh ${{ github.workspace }}
+
+      - name: Upload Release
+        if: env.RELEASE_ENABLED == 'true'  # 控制是否上传到 Release
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ github.workspace }}/osd-neon.zip           # 仅支持上传文件
+          asset_name: osd-neon.zip
+          asset_content_type: application/zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

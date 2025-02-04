@@ -6,7 +6,11 @@ cmake_minimum_required(VERSION 3.0.0)
 
 # 配置交叉编译工具链
 # 	自动导入
-set(ANDROID_NDK "/Users/think3r/bin/android-ndk-r23")
+if(NOT DEFINED ANDROID_NDK)
+	set(ANDROID_NDK "~/bin/android-ndk-r23")
+	message(STATUS  "ANDROID_NDK: default~")
+endif()
+
 set(CMAKE_TOOLCHAIN_FILE "${ANDROID_NDK}/build/cmake/android.toolchain.cmake")
 #set(CMAKE_TOOLCHAIN_FILE "$ENV{ANDROID_NDK}/build/cmake/android.toolchain.cmake")
 #set(ANDROID_TOOLCHAIN "gcc")
@@ -31,7 +35,8 @@ set(My_Target "neonOsdDemo")	#可执行文件名称
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 message(STATUS  "----------------------------------------->")
-message(STATUS "project name: " ${PROJECT_NAME})
+message(STATUS  "ANDROID_NDK: ${ANDROID_NDK}")
+message(STATUS  "project name: " ${PROJECT_NAME})
 message(STATUS  "PROJECT_BINARY_DIR:" ${PROJECT_BINARY_DIR})
 message(STATUS  "PROJECT_SOURCE_DIR:" ${PROJECT_SOURCE_DIR})
 message(STATUS  "CMAKE_C_COMPILER:" ${CMAKE_C_COMPILER})
@@ -46,7 +51,7 @@ message(STATUS  "<-----------------------------------------")
 # 配置编译的宏
 set(gnu_flags " -Wall -Wno-unused -Wconversion -Wno-uninitialized -Wno-sign-conversion ")
 set(neno_flags "-mfloat-abi=softfp -mfpu=neon-vfpv4 ")
-set(android_5_flags "-fPIE -pie ")
+set(android_5_flags "-fPIE -pie -fPIC")
 set(CMAKE_CXX_FLAGS " ${gnu_flags} ${neno_flags} ${android_5_flags} ")
 set(CMAKE_C_FLAGS " ${gnu_flags} ${neno_flags} ${android_5_flags} ")
 
@@ -61,7 +66,7 @@ add_library(${Library_OutPutName}_static STATIC ${src_base_List})
 # 重命名 add_library 中的模块名字,
 set_target_properties(${Library_OutPutName}_shared PROPERTIES
 						OUTPUT_NAME ${Library_OutPutName}
-						COMPILE_FLAGS " -O2 ")
+						COMPILE_FLAGS " -O0 ")
 set_target_properties(${Library_OutPutName}_static PROPERTIES
 						OUTPUT_NAME ${Library_OutPutName}
 						COMPILE_FLAGS " -O2 ")

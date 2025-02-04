@@ -6,11 +6,15 @@ cmake_minimum_required(VERSION 3.0.0)
 
 # 配置交叉编译工具链
 set(CMAKE_SYSTEM_NAME Linux)
-set(ndk_path "/home/think3r/bin/android-ndk-r14b")
-set(ndk_toolchains_prefix "${ndk_path}/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64/bin/arm-linux-androideabi-")
+if(NOT DEFINED ANDROID_NDK)
+	set(ANDROID_NDK "~/bin/android-ndk-r23")
+	message(STATUS  "ANDROID_NDK: default~")
+endif()
+
+set(ndk_toolchains_prefix "${ANDROID_NDK}/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64/bin/arm-linux-androideabi-")
 set(CMAKE_C_COMPILER "${ndk_toolchains_prefix}gcc")
 set(CMAKE_CXX_COMPILER "${ndk_toolchains_prefix}g++")
-set(CMAKE_SYSROOT "${ndk_path}/platforms/android-14/arch-arm") # --sysroot 选项
+set(CMAKE_SYSROOT "${ANDROID_NDK}/platforms/android-14/arch-arm") # --sysroot 选项
 
 #====================================================================================================================
 
@@ -22,6 +26,7 @@ set(My_Target "neonOsdDemo")	#可执行文件名称
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 message(STATUS  "----------------------------------------->")
+message(STATUS  "ANDROID_NDK: ${ANDROID_NDK}")
 message(STATUS  "project name: " ${PROJECT_NAME})
 message(STATUS  "PROJECT_BINARY_DIR:" ${PROJECT_BINARY_DIR})
 message(STATUS  "PROJECT_SOURCE_DIR:" ${PROJECT_SOURCE_DIR})
